@@ -8,7 +8,7 @@
 [![Flask](https://img.shields.io/badge/Flask-3.0%2B-000000.svg?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
 [![yt--dlp](https://img.shields.io/badge/yt--dlp-2025%2B-red.svg?style=for-the-badge&logo=youtube&logoColor=white)](https://github.com/yt-dlp/yt-dlp)
 [![FFmpeg](https://img.shields.io/badge/FFmpeg-Accelerated-555555.svg?style=for-the-badge&logo=ffmpeg&logoColor=white)](https://ffmpeg.org/)
-[![Tests Passed](https://img.shields.io/badge/Tests-17%2F17%20Passed-brightgreen.svg?style=for-the-badge&logo=githubactions&logoColor=white)](test_app.py)
+[![Tests Passed](https://img.shields.io/badge/Tests-18%2F18%20Passed-brightgreen.svg?style=for-the-badge&logo=githubactions&logoColor=white)](test_app.py)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
 [⚡ Turbo Downloads](#-turbo-download-acceleration) • [✂️ Smart Strategies](#-smart-clipping-strategies) • [📱 Creator Suite](#-creator-suite--mobile-formatting) • [🚀 Quickstart](#-quickstart-guide) • [🔌 REST API](#-api-endpoints) • [🧪 Test Suite](#-automated-testing--reliability)
@@ -192,11 +192,41 @@ python app.py
 
 Now open **[http://127.0.0.1:5000](http://127.0.0.1:5000)** in your browser!
 
+### 🐳 Production Docker Deployment (Recommended for Cloud / Servers)
+
+Run the studio in an isolated, production-ready container with FFmpeg, aria2c, and Node.js pre-installed:
+
+```bash
+# 1-Command Launch with Docker Compose
+docker compose up -d
+
+# Or Build & Run directly
+docker build -t universal-video-clipper .
+docker run -d -p 5000:5000 --name yt-clipper universal-video-clipper
+```
+
+### 🚀 Production WSGI Server (Waitress / Gunicorn)
+
+- **Windows / Universal (Waitress)**:
+  ```bash
+  # Set PRODUCTION=1 to activate multi-threaded Waitress WSGI
+  $env:PRODUCTION="1"; python app.py
+  ```
+- **Linux / Cloud (Gunicorn)**:
+  ```bash
+  gunicorn --bind 0.0.0.0:5000 --workers 2 --threads 4 --timeout 3600 app:app
+  ```
+
 ---
 
 ## 🔌 API Endpoints
 
 The backend is built with a RESTful architecture:
+
+```http
+GET /api/health
+```
+> Production health & readiness check. Returns status `healthy`, dependency availability (`ffmpeg`, `aria2c`), and active job count.
 
 ```http
 POST /api/info

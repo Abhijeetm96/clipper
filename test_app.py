@@ -159,6 +159,16 @@ class TestAPIEndpoints(unittest.TestCase):
         res = self.client.get("/api/status/non_existent_job_123")
         self.assertEqual(res.status_code, 404)
 
+    def test_api_health(self):
+        res = self.client.get("/api/health")
+        self.assertEqual(res.status_code, 200)
+        data = res.get_json()
+        self.assertEqual(data["status"], "healthy")
+        self.assertIn("ffmpeg", data)
+
+        res_z = self.client.get("/healthz")
+        self.assertEqual(res_z.status_code, 200)
+
 
 class TestFullPipeline(unittest.TestCase):
     """End-to-end execution testing with sample video."""

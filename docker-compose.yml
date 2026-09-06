@@ -1,0 +1,15 @@
+services:
+  clipper:
+    build: .
+    container_name: universal-video-clipper
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - HOST=0.0.0.0
+      - PRODUCTION=1
+      - SECRET_KEY=change-this-secret-key-in-production
+    volumes:
+      - ./downloads:/app/downloads
+      - ./clips:/app/clips

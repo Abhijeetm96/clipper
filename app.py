@@ -177,7 +177,15 @@ def get_aria2_path():
     return None
 
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 app = Flask(__name__)
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "universal-video-clipper-production-secret-key")
+app.config["MAX_CONTENT_LENGTH"] = int(os.environ.get("MAX_CONTENT_LENGTH", 4 * 1024 * 1024 * 1024))  # 4 GB max upload
 
 # In-memory job tracker: job_id -> {status, message, progress, clips: [filenames], clip_details: [...], mode: "video"|"audio", error}
 JOBS = {}
@@ -1038,6 +1046,39 @@ def open_folder():
     return jsonify({"error": f"Path '{file_path}' was not found on server."}), 404
 
 
+@app.route("/api/health", methods=["GET"])
+@app.route("/healthz", methods=["GET"])
+def health_check():
+    """Production health and dependency readiness check."""
+    ffmpeg_ok = shutil.which("ffmpeg") is not None
+    aria2_ok = get_aria2_path() is not None
+    return jsonify({
+        "status": "healthy",
+        "timestamp": time.time(),
+        "platform": sys.platform,
+        "ffmpeg": "available" if ffmpeg_ok else "missing",
+        "aria2c": "available" if aria2_ok else "not_found",
+        "active_jobs": len([j for j in JOBS.values() if j.get("status") in ["downloading", "processing"]])
+    }), 200
+
+
+@app.errorhandler(404)
+def handle_404(e):
+    if request.path.startswith("/api/"):
+        return jsonify({"error": "Resource not found"}), 404
+    return render_template("index.html"), 200
+
+
+@app.errorhandler(413)
+def handle_413(e):
+    return jsonify({"error": "File exceeds maximum upload size (4 GB)"}), 413
+
+
+@app.errorhandler(500)
+def handle_500(e):
+    return jsonify({"error": "Internal server error occurred"}), 500
+
+
 def find_available_port(default_port: int = 5000) -> int:
     import socket
     for p in [default_port, 5001, 5002, 5003, 8080]:
@@ -1053,6 +1094,18 @@ def find_available_port(default_port: int = 5000) -> int:
 
 if __name__ == "__main__":
     env_port = os.environ.get("PORT")
+    env_host = os.environ.get("HOST", "127.0.0.1")
     port = int(env_port) if env_port else find_available_port(5000)
-    print(f"\n  YouTube Clipper running at: http://127.0.0.1:{port}\n")
-    app.run(host="127.0.0.1", port=port, debug=False)
+    use_prod = os.environ.get("PRODUCTION", "").lower() in ("1", "true", "yes")
+
+    if use_prod:
+        try:
+            from waitress import serve
+            print(f"\n  🚀 Production Server (Waitress WSGI) active at: http://{env_host}:{port}\n")
+            serve(app, host=env_host, port=port, threads=8)
+            sys.exit(0)
+        except ImportError:
+            pass
+
+    print(f"\n  Universal Video Clipper running at: http://{env_host}:{port}\n")
+    app.run(host=env_host, port=port, debug=False, threaded=True)
