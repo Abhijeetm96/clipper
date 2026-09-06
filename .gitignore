@@ -3,11 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Temporary media storage and batch directories
-downloads/*
-!downloads/.gitkeep
-clips/*
-!clips/.gitkeep
+# Temporary runtime media scratch directories
+downloads/
+clips/
 *.temp.mp4
 *.part
 *.ytdl
