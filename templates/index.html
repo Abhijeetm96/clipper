@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Universal Video Clipper - Professional Creator Studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0d11;
+    --card-bg: #141720;
+    --card-border: #222836;
+    --input-bg: #0c0e13;
+    --text: #f0f3f8;
+    --muted: #8b949e;
+    --accent: #ff334b;
+    --accent-hover: #ff4d63;
+    --accent-glow: rgba(255, 51, 75, 0.25);
+    --success: #22c55e;
+    --success-hover: #16a34a;
+    --success-bg: rgba(34, 197, 94, 0.12);
+    --purple: #8b5cf6;
+    --purple-bg: rgba(139, 92, 246, 0.14);
+    --amber: #f59e0b;
+    --amber-bg: rgba(245, 158, 11, 0.14);
+    --border: #272f3e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: radial-gradient(circle at 50% 0%, #1a2233 0%, var(--bg) 70%);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 36px 16px;
+  }
+  .card {
+    width: 100%;
+    max-width: 740px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+    border-radius: 20px;
+    padding: 34px;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .icon-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ff334b, #d9142b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px var(--accent-glow);
+  }
+  .icon-badge svg {
+    width: 22px;
+    height: 22px;
+    fill: white;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+  .sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0 0 18px;
+    line-height: 1.5;
+  }
+
+  /* Source Switcher (YouTube vs Local Upload) */
+  .source-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+  }
+  .source-tab {
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .source-tab:hover { color: #f0f3f8; }
+  .source-tab.active {
+    background: #1e2433;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  }
+
+  /* Mode Switcher (Video vs Audio) */
+  .mode-switcher {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    background: var(--input-bg);
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    margin-bottom: 18px;
+  }
+  .mode-tab {
+    padding: 8px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.2s;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .mode-tab.active {
+    background: #232a3a;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #c9d1d9;
+    margin-bottom: 7px;
+  }
+  input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--input-bg);
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.2s ease;
+  }
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+  select option {
+    background: #151821;
+    color: #f0f3f8;
+  }
+
+  /* File Upload Dropzone */
+  .dropzone {
+    border: 2px dashed var(--border);
+    border-radius: 14px;
+    padding: 26px 20px;
+    text-align: center;
+    background: #0e1117;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 16px;
+  }
+  .dropzone:hover, .dropzone.dragover {
+    border-color: var(--accent);
+    background: rgba(255, 51, 75, 0.04);
+  }
+  .dropzone-icon {
+    font-size: 28px;
+    margin-bottom: 6px;
+  }
+  .dropzone-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #f0f3f8;
+  }
+  .dropzone-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .upload-success-card {
+    display: none;
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .upload-success-card.active { display: flex; }
+
+  /* Video Metadata Card */
+  .video-info-card {
+    display: none;
+    background: #0d1016;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    align-items: center;
+    gap: 14px;
+  }
+  .video-info-card.active { display: flex; }
+  .video-thumb {
+    width: 100px;
+    height: 58px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #1f2533;
+    flex-shrink: 0;
+  }
+  .video-meta-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .video-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #f0f3f8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+  }
+  .video-badges {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+  .badge-duration { background: #232938; color: #c9d1d9; }
+  .badge-size { background: rgba(59, 130, 246, 0.16); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); }
+  .badge-chapters { background: var(--purple-bg); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.3); }
+  .badge-viral { background: var(--amber-bg); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.3); }
+  .clip-size-badge {
+    background: #1b212f;
+    color: #94a3b8;
+    border: 1px solid #2d3748;
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+
+  /* Full Download Card */
+  .full-download-card {
+    background: linear-gradient(135deg, rgba(16, 21, 33, 0.95), rgba(24, 31, 48, 0.9));
+    border: 1px solid #293548;
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+  .full-download-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .full-download-title-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .full-download-icon {
+    font-size: 18px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(37, 99, 235, 0.2);
+    border: 1px solid rgba(59, 130, 246, 0.35);
+    border-radius: 10px;
+  }
+  .full-download-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #f0f3f8;
+  }
+  .full-download-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .full-download-controls {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .full-download-select-group {
+    flex: 1;
+    min-width: 200px;
+  }
+  .full-download-select-group label {
+    margin-bottom: 5px;
+    font-size: 12px;
+  }
+  .btn-full-download {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    white-space: nowrap;
+    height: 40px;
+  }
+  .btn-full-download:hover {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+  }
+
+  /* Strategy Grid */
+  .strategy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .strategy-card {
+    background: #0f1218;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .strategy-card:hover {
+    border-color: #3b4457;
+    background: #151922;
+  }
+  .strategy-card.active {
+    border-color: var(--accent);
+    background: rgba(255, 51, 75, 0.08);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  .strategy-card .icon { font-size: 18px; margin-bottom: 4px; }
+  .strategy-card .label { font-size: 12px; font-weight: 600; color: #f0f3f8; }
+  .strategy-card .desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* Strategy Details Sections */
+  .strategy-panel {
+    display: none;
+    background: #0e1117;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .strategy-panel.active { display: block; }
+
+  .chapter-list {
+    max-height: 160px;
+    overflow-y: auto;
+    margin-top: 8px;
+  }
+  .chapter-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    background: #141822;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    font-size: 12px;
+  }
+  .chapter-time { color: var(--muted); font-family: monospace; }
+  .viral-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #141822;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    font-size: 12px;
+  }
+
+  /* Custom Checkbox Row */
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #c9d1d9;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 10px;
+  }
+  .checkbox-row input[type="checkbox"] {
+    cursor: pointer;
+    accent-color: var(--accent);
+    width: 16px;
+    height: 16px;
+  }
+
+  button.submit-btn {
+    margin-top: 10px;
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent), #e01e37);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px var(--accent-glow);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  button.submit-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, var(--accent-hover), #ff2a44);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px var(--accent-glow);
+  }
+  button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* Status Box */
+  .status-box {
+    margin-top: 24px;
+    padding: 18px 20px;
+    background: #0f1218;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    display: none;
+  }
+  .status-box.active { display: block; }
+  .status-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .status-title {
+    font-weight: 600;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .status-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .status-pct {
+    font-weight: 700;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .progress-bar {
+    height: 8px;
+    background: #1c212c;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff334b, #ff7a59);
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 4px;
+  }
+  .status-detail {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: monospace;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .error {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    border-radius: 12px;
+    color: #fca5a5;
+    font-size: 13px;
+    display: none;
+    line-height: 1.5;
+  }
+
+  /* Clips Output Section */
+  .clips {
+    margin-top: 28px;
+    display: none;
+  }
+  .clips-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .clips-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--success);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-zip-all {
+    background: linear-gradient(135deg, var(--success), var(--success-hover));
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
+    transition: all 0.2s;
+  }
+  .btn-zip-all:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(34, 197, 94, 0.35);
+  }
+  .clip-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #0f1218;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    transition: border-color 0.2s;
+  }
+  .clip-row:hover { border-color: #3f4758; }
+  .clip-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 440px;
+  }
+  .clip-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .btn-preview {
+    background: #212631;
+    border: 1px solid var(--border);
+    color: #c9d1d9;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-preview:hover { background: #2a3140; color: #fff; }
+  .btn-download {
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+  .btn-download:hover { background: var(--accent-hover); }
+
+  /* History Drawer */
+  .history-section {
+    margin-top: 32px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+  .history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  .history-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #c9d1d9;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .history-list { margin-top: 14px; display: none; }
+  .history-list.open { display: block; }
+  .history-item {
+    background: #0d0f14;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+  }
+  .history-info { display: flex; flex-direction: column; gap: 3px; }
+  .history-id { font-family: monospace; font-weight: 600; color: #f0f3f8; }
+  .history-meta { color: var(--muted); }
+  .history-actions { display: flex; align-items: center; gap: 6px; }
+  .btn-action-small {
+    background: #1b202a;
+    border: 1px solid var(--border);
+    color: #c9d1d9;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-action-small:hover { background: #252c3b; color: #fff; }
+  .btn-delete-small { color: #fca5a5; border-color: rgba(239, 68, 68, 0.3); }
+  .btn-delete-small:hover { background: rgba(239, 68, 68, 0.2); color: #ff8585; }
+
+  /* Modal Preview */
+  .modal-backdrop {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal-box {
+    background: #161a22;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    max-width: 640px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .modal-close {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px 8px;
+  }
+  .modal-close:hover { color: #fff; }
+  .modal-body {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #08090c;
+  }
+  .modal-video {
+    max-width: 100%;
+    max-height: 520px;
+    border-radius: 8px;
+    background: #000;
+    display: block;
+  }
+  .modal-audio { width: 100%; padding: 20px; display: none; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <div class="icon-badge">
+      <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="white"></polygon></svg>
+    </div>
+    <h1>Universal Video Clipper</h1>
+  </div>
+  <p class="sub">Professional Video & Audio Clipper for any web video link (YouTube, TikTok, Twitter/X, Instagram, Vimeo, Reddit & more) and local files.</p>
+
+  <!-- Source Tabs (Web Video URL vs Local Upload) -->
+  <div class="source-tabs">
+    <div class="source-tab active" id="sourceTabYt" onclick="setSource('yt')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8" fill="currentColor"></polygon></svg>
+      Web Video Link
+    </div>
+    <div class="source-tab" id="sourceTabUpload" onclick="setSource('upload')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+      Upload Local Video
+    </div>
+  </div>
+
+  <!-- Mode Switcher -->
+  <div class="mode-switcher">
+    <div class="mode-tab active" id="tabVideo" onclick="setMode('video')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+      Video Clips (MP4)
+    </div>
+    <div class="mode-tab" id="tabAudio" onclick="setMode('audio')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+      Audio Only (MP3)
+    </div>
+  </div>
+
+  <!-- Video URL Input Section -->
+  <div id="sectionYtInput" class="form-group">
+    <label for="url">Video Link / URL (YouTube, TikTok, Twitter/X, Instagram, Reddit, Vimeo, direct MP4, etc.)</label>
+    <input type="text" id="url" placeholder="https://... (Paste any video link from any platform)" oninput="handleUrlInput()">
+  </div>
+
+  <!-- Local Upload Section -->
+  <div id="sectionUploadInput" style="display: none;">
+    <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+      <div class="dropzone-icon">📁</div>
+      <div class="dropzone-title">Click to upload or drag video here</div>
+      <div class="dropzone-sub">Supports MP4, MOV, MKV, and WEBM files</div>
+      <input type="file" id="fileInput" accept="video/*" style="display: none;" onchange="handleFileSelected(this.files[0])">
+    </div>
+    <div class="upload-success-card" id="uploadSuccessCard">
+      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span id="uploadedFileName" style="font-weight: 600; font-size: 13px; color: #f0f3f8;">video.mp4</span>
+        <span class="badge badge-duration" id="uploadedDuration">0:00</span>
+        <span class="badge badge-size" id="uploadedSize">0 MB</span>
+      </div>
+      <button class="btn-action-small" onclick="clearUpload()">Remove</button>
+    </div>
+  </div>
+
+  <!-- Live Video Metadata Card -->
+  <div class="video-info-card" id="videoInfoCard">
+    <img id="videoThumb" class="video-thumb" src="" alt="Thumbnail">
+    <div class="video-meta-body">
+      <div id="videoTitle" class="video-title">Loading...</div>
+      <div class="video-badges" id="videoBadges">
+        <span class="badge badge-duration" id="badgeDuration">0:00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full Video Quick Download Banner -->
+  <div class="full-download-card" id="fullDownloadCard" style="display: none;">
+    <div class="full-download-header">
+      <div class="full-download-title-group">
+        <div class="full-download-icon">⬇️</div>
+        <div>
+          <div class="full-download-title">Download Full Video (No Cuts)</div>
+          <div class="full-download-sub">Save the entire full-length video in original 4K UHD or selected resolution.</div>
+        </div>
+      </div>
+      <div id="fullDownloadBadges" style="display: flex; gap: 6px; align-items: center;"></div>
+    </div>
+    <div class="full-download-controls">
+      <div class="full-download-select-group">
+        <label for="fullQuality">Download Format / Quality</label>
+        <select id="fullQuality">
+          <option value="best" selected>🌟 Best / 4K UHD (Original Stream)</option>
+          <option value="1080">📺 1080p Full HD</option>
+          <option value="720">⚡ 720p HD (Fast)</option>
+          <option value="audio">🎵 Audio Only (MP3)</option>
+        </select>
+      </div>
+      <button class="btn-full-download" id="btnFullDownload" onclick="startFullDownload()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        <span>Download Full Video</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Smart Strategy Selector -->
+  <div id="strategySection">
+    <label>Clipping Strategy</label>
+    <div class="strategy-grid">
+      <div class="strategy-card active" id="stratCardSequential" onclick="setStrategy('sequential')">
+        <div class="icon">⏱️</div>
+        <div class="label">Sequential Split</div>
+        <div class="desc">Cut every X seconds</div>
+      </div>
+      <div class="strategy-card" id="stratCardChapters" onclick="setStrategy('chapters')">
+        <div class="icon">📑</div>
+        <div class="label">By Chapters</div>
+        <div class="desc" id="stratDescChapters">Auto-detect chapters</div>
+      </div>
+      <div class="strategy-card" id="stratCardViral" onclick="setStrategy('viral')">
+        <div class="icon">🔥</div>
+        <div class="label">Viral Heatmap</div>
+        <div class="desc" id="stratDescViral">Top replay peaks</div>
+      </div>
+      <div class="strategy-card" id="stratCardFull" onclick="setStrategy('full')">
+        <div class="icon">📦</div>
+        <div class="label">Full Video</div>
+        <div class="desc">Original / 4K (No Cut)</div>
+      </div>
+    </div>
+
+    <!-- Strategy Panel 1: Sequential Options -->
+    <div class="strategy-panel active" id="panelSequential">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="length">Clip Length (seconds)</label>
+          <input type="number" id="length" value="60" min="3" max="600">
+        </div>
+        <div class="form-group" id="aspectGroup">
+          <label for="aspect">Aspect Ratio</label>
+          <select id="aspect">
+            <option value="16:9" selected>16:9 Landscape (Original)</option>
+            <option value="9:16-blur">9:16 Vertical (Shorts/Reels Blur)</option>
+            <option value="9:16-crop">9:16 Vertical (Center Crop)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Feature 4: On-Video Progress Bar Overlay -->
+      <label class="checkbox-row" id="rowProgressBar">
+        <input type="checkbox" id="addProgressBar" checked>
+        <span>⏳ Burn dynamic progress bar on clips (Viral TikTok/Reels style)</span>
+      </label>
+
+      <!-- Speech Pause Snapping Option -->
+      <label class="checkbox-row">
+        <input type="checkbox" id="snapSilence" checked>
+        <span>🤫 Smart Silence Snapping (Avoids cutting mid-sentence)</span>
+      </label>
+
+      <!-- Optional Range Trimmer -->
+      <label class="checkbox-row" style="margin-top: 10px;">
+        <input type="checkbox" id="enableTrim" onchange="toggleTrim()">
+        <span>✂️ Clip specific time range only (Optional)</span>
+      </label>
+      <div class="form-row" id="trimmerInputs" style="display: none; margin-top: 10px;">
+        <div>
+          <label for="startTime">Start Time (MM:SS)</label>
+          <input type="text" id="startTime" placeholder="00:00">
+        </div>
+        <div>
+          <label for="endTime">End Time (MM:SS)</label>
+          <input type="text" id="endTime" placeholder="02:30">
+        </div>
+      </div>
+    </div>
+
+    <!-- Strategy Panel 2: Chapter Options -->
+    <div class="strategy-panel" id="panelChapters">
+      <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #f0f3f8;">Detected Video Chapters</div>
+      <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px;">Each chapter will be exported as a standalone clip named after its title.</div>
+      <div class="chapter-list" id="chapterListContainer">
+        <div style="color: var(--muted); font-size: 12px; padding: 6px;">Paste any video link above to check for chapters.</div>
+      </div>
+    </div>
+
+    <!-- Strategy Panel 3: Viral Heatmap Options -->
+    <div class="strategy-panel" id="panelViral">
+      <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #f0f3f8;">🔥 Most Replayed Viral Moments</div>
+      <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px;">Auto-extracts the highest audience retention peaks from YouTube's heatmap graph.</div>
+      <div class="viral-list" id="viralListContainer">
+        <div style="color: var(--muted); font-size: 12px; padding: 6px;">Paste a video link above to check for retention peaks.</div>
+      </div>
+    </div>
+
+    <!-- Strategy Panel 4: Full Video Options -->
+    <div class="strategy-panel" id="panelFull">
+      <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #f0f3f8;">📦 Original Full Length Video</div>
+      <div style="font-size: 12px; color: var(--muted); margin-bottom: 12px;">Downloads the entire video file without splitting. Preserves the full stream in original 4K or 1080p resolution.</div>
+      <div class="form-row">
+        <div class="form-group" style="grid-column: span 2;">
+          <label for="fullPanelQuality">Full Video Resolution</label>
+          <select id="fullPanelQuality" onchange="document.getElementById('quality').value = this.value">
+            <option value="best" selected>Best / 4K UHD (Original Uncompressed Stream)</option>
+            <option value="1080">1080p Full HD</option>
+            <option value="720">720p HD</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature 6: Custom Clip Prefix Input -->
+  <div class="form-row">
+    <div class="form-group" style="grid-column: span 2;">
+      <label for="prefix">Custom Clip Filename Prefix (Optional)</label>
+      <input type="text" id="prefix" placeholder="e.g. podcast_part, reels_clip, gadget_review">
+    </div>
+  </div>
+
+  <!-- Resolution Dropdown (for YouTube downloads) -->
+  <div class="form-row" id="qualityRow">
+    <div class="form-group" style="grid-column: span 2;">
+      <label for="quality">Download Resolution</label>
+      <select id="quality">
+        <option value="1080" selected>1080p Full HD (Fast & Crisp - Recommended)</option>
+        <option value="720">720p HD (Ultra Fast)</option>
+        <option value="best">Best / 4K UHD (Original)</option>
+      </select>
+    </div>
+  </div>
+
+  <button id="startBtn" class="submit-btn" onclick="startJob()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+    <span id="startBtnText">Clip It</span>
+  </button>
+
+  <!-- Live Status Box -->
+  <div class="status-box" id="statusBox">
+    <div class="status-header">
+      <div class="status-title">
+        <div class="status-spinner" id="statusSpinner"></div>
+        <span id="statusTitle">Processing...</span>
+      </div>
+      <div class="status-pct" id="statusPct">0%</div>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="status-detail" id="statusDetail">Initializing...</div>
+  </div>
+
+  <div class="error" id="error"></div>
+
+  <!-- Clips Ready Section -->
+  <div class="clips" id="clipsSection">
+    <div class="clips-header-row">
+      <div class="clips-title" id="clipsHeader">Clips Ready</div>
+      <a class="btn-zip-all" id="zipAllBtn" href="#" download>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Download All as ZIP
+      </a>
+    </div>
+
+    <!-- Permanent System Downloads Banner -->
+    <div class="saved-banner" id="savedBanner" style="display: none; justify-content: space-between; align-items: center; background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 12px; padding: 14px 18px; margin-bottom: 16px; gap: 12px; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="font-size: 24px;">📁</div>
+        <div>
+          <div style="font-weight: 700; color: #22c55e; font-size: 13.5px; display: flex; align-items: center; gap: 8px;">
+            <span>Saved to System Downloads Folder</span>
+            <span style="font-size: 11px; font-weight: 600; background: rgba(34, 197, 94, 0.2); color: #4ade80; padding: 2px 7px; border-radius: 4px;">Permanent • Never Deleted</span>
+          </div>
+          <div style="font-size: 12px; color: #cbd5e1; font-family: monospace; word-break: break-all; margin-top: 3px;" id="savedLocationText"></div>
+        </div>
+      </div>
+      <button id="btnOpenExplorer" onclick="openSavedLocation()" style="background: linear-gradient(135deg, #22c55e, #16a34a); color: white; font-weight: 600; font-size: 13px; padding: 8px 16px; border-radius: 9px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25); transition: transform 0.15s ease;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+        <span>Show in Folder</span>
+      </button>
+    </div>
+
+    <div id="clipsList"></div>
+  </div>
+
+  <!-- Past Jobs History Section -->
+  <div class="history-section">
+    <div class="history-header" onclick="toggleHistory()">
+      <div class="history-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <span>Previous Batches</span>
+        <span id="historyCountBadge" style="color: var(--muted); font-weight: normal;">(Loading...)</span>
+      </div>
+      <span id="historyArrow" style="color: var(--muted);">▼</span>
+    </div>
+    <div class="history-list" id="historyList"></div>
+  </div>
+</div>
+
+<!-- Preview Modal -->
+<div class="modal-backdrop" id="previewModal" onclick="closePreview(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <span id="modalClipTitle">Clip Preview</span>
+      <button class="modal-close" onclick="closePreview()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <video class="modal-video" id="modalVideo" controls></video>
+      <audio class="modal-audio" id="modalAudio" controls></audio>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentJobId = null;
+let pollTimer = null;
+let currentSource = 'yt';
+let currentMode = 'video';
+let currentStrategy = 'sequential';
+let fetchedMeta = null;
+let urlDebounceTimer = null;
+let currentUploadId = null;
+
+function setSource(src) {
+  currentSource = src;
+  document.getElementById('sourceTabYt').classList.toggle('active', src === 'yt');
+  document.getElementById('sourceTabUpload').classList.toggle('active', src === 'upload');
+
+  document.getElementById('sectionYtInput').style.display = src === 'yt' ? 'block' : 'none';
+  document.getElementById('sectionUploadInput').style.display = src === 'upload' ? 'block' : 'none';
+  document.getElementById('qualityRow').style.display = (src === 'yt' && currentMode === 'video' && currentStrategy !== 'full') ? 'grid' : 'none';
+
+  if (src === 'upload') {
+    document.getElementById('videoInfoCard').classList.remove('active');
+    document.getElementById('fullDownloadCard').style.display = 'none';
+    if (currentStrategy === 'chapters' || currentStrategy === 'viral' || currentStrategy === 'full') {
+      setStrategy('sequential');
+    }
+    document.getElementById('stratCardChapters').style.display = 'none';
+    document.getElementById('stratCardViral').style.display = 'none';
+    document.getElementById('stratCardFull').style.display = 'none';
+  } else {
+    document.getElementById('stratCardChapters').style.display = 'block';
+    document.getElementById('stratCardViral').style.display = 'block';
+    document.getElementById('stratCardFull').style.display = 'block';
+    if (fetchedMeta) {
+      document.getElementById('fullDownloadCard').style.display = 'block';
+    }
+  }
+}
+
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById('tabVideo').classList.toggle('active', mode === 'video');
+  document.getElementById('tabAudio').classList.toggle('active', mode === 'audio');
+  document.getElementById('aspectGroup').style.display = (mode === 'video' && currentStrategy !== 'full') ? 'block' : 'none';
+  document.getElementById('rowProgressBar').style.display = (mode === 'video' && currentStrategy !== 'full') ? 'flex' : 'none';
+  document.getElementById('qualityRow').style.display = (mode === 'video' && currentSource === 'yt' && currentStrategy !== 'full') ? 'grid' : 'none';
+  updateSubmitBtnText();
+}
+
+function setStrategy(strat) {
+  currentStrategy = strat;
+  document.getElementById('stratCardSequential').classList.toggle('active', strat === 'sequential');
+  document.getElementById('stratCardChapters').classList.toggle('active', strat === 'chapters');
+  document.getElementById('stratCardViral').classList.toggle('active', strat === 'viral');
+  document.getElementById('stratCardFull').classList.toggle('active', strat === 'full');
+
+  document.getElementById('panelSequential').classList.toggle('active', strat === 'sequential');
+  document.getElementById('panelChapters').classList.toggle('active', strat === 'chapters');
+  document.getElementById('panelViral').classList.toggle('active', strat === 'viral');
+  document.getElementById('panelFull').classList.toggle('active', strat === 'full');
+
+  const isFull = (strat === 'full');
+  document.getElementById('qualityRow').style.display = (!isFull && currentSource === 'yt' && currentMode === 'video') ? 'grid' : 'none';
+
+  updateSubmitBtnText();
+}
+
+function updateSubmitBtnText() {
+  const btnText = document.getElementById('startBtnText');
+  if (currentStrategy === 'full') {
+    btnText.textContent = 'Download Full Video (Original / 4K)';
+  } else if (currentMode === 'audio') {
+    btnText.textContent = 'Extract Audio Clips';
+  } else if (currentStrategy === 'chapters') {
+    btnText.textContent = 'Clip by Chapters';
+  } else if (currentStrategy === 'viral') {
+    btnText.textContent = 'Clip Viral Peaks';
+  } else {
+    btnText.textContent = 'Clip It';
+  }
+}
+
+function toggleTrim() {
+  const isEnabled = document.getElementById('enableTrim').checked;
+  document.getElementById('trimmerInputs').style.display = isEnabled ? 'grid' : 'none';
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  document.getElementById('dropzone').classList.add('dragover');
+}
+function handleDragLeave(e) {
+  e.preventDefault();
+  document.getElementById('dropzone').classList.remove('dragover');
+}
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('dropzone').classList.remove('dragover');
+  if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+    handleFileSelected(e.dataTransfer.files[0]);
+  }
+}
+
+async function handleFileSelected(file) {
+  if (!file) return;
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const dropzone = document.getElementById('dropzone');
+  const oldText = dropzone.innerHTML;
+  dropzone.innerHTML = `<div class="dropzone-icon">⏳</div><div class="dropzone-title">Uploading ${file.name}...</div>`;
+
+  try {
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      body: formData
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      showError(data.error || 'Upload failed.');
+      dropzone.innerHTML = oldText;
+      return;
+    }
+    currentUploadId = data.upload_id;
+    document.getElementById('dropzone').style.display = 'none';
+    document.getElementById('uploadedFileName').textContent = data.filename;
+    document.getElementById('uploadedDuration').textContent = data.duration_str;
+    document.getElementById('uploadedSize').textContent = '💾 ' + (data.size_str || 'Uploaded');
+    document.getElementById('uploadSuccessCard').classList.add('active');
+  } catch (e) {
+    showError('Could not upload video.');
+    dropzone.innerHTML = oldText;
+  }
+}
+
+function clearUpload() {
+  currentUploadId = null;
+  document.getElementById('uploadSuccessCard').classList.remove('active');
+  document.getElementById('dropzone').style.display = 'block';
+  document.getElementById('fileInput').value = '';
+}
+
+function handleUrlInput() {
+  clearTimeout(urlDebounceTimer);
+  const url = document.getElementById('url').value.trim();
+  if (url.match(/^https?:\/\/[^\s]+/)) {
+    urlDebounceTimer = setTimeout(() => fetchVideoMeta(url), 400);
+  } else {
+    document.getElementById('videoInfoCard').classList.remove('active');
+    document.getElementById('fullDownloadCard').style.display = 'none';
+  }
+}
+
+async function fetchVideoMeta(url) {
+  try {
+    const res = await fetch('/api/info', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url })
+    });
+    if (!res.ok) return;
+    fetchedMeta = await res.json();
+
+    const p = fetchedMeta.platform || { name: 'Web Video', icon: '🌐', color: '#6366f1' };
+    const card = document.getElementById('videoInfoCard');
+    document.getElementById('videoThumb').src = fetchedMeta.thumbnail || '';
+    document.getElementById('videoThumb').style.display = fetchedMeta.thumbnail ? 'block' : 'none';
+    document.getElementById('videoTitle').textContent = fetchedMeta.title;
+    document.getElementById('badgeDuration').textContent = fetchedMeta.duration_str;
+
+    const badgesContainer = document.getElementById('videoBadges');
+    badgesContainer.innerHTML = `
+      <span class="badge" style="background: ${p.color}22; color: ${p.color}; border: 1px solid ${p.color}55;">${p.icon} ${p.name}</span>
+      <span class="badge badge-duration">⏱️ ${fetchedMeta.duration_str}</span>
+      <span class="badge badge-size">💾 ${fetchedMeta.primary_size || 'Auto Size'}</span>
+    `;
+
+    // Populate sizes in main dropdown
+    if (fetchedMeta.sizes) {
+      const qSelect = document.getElementById('quality');
+      const s1080 = fetchedMeta.sizes['1080'] || 'Recommended';
+      const s720 = fetchedMeta.sizes['720'] || 'Ultra Fast';
+      const sBest = fetchedMeta.sizes['best'] || 'Original';
+      qSelect.innerHTML = `
+        <option value="1080" selected>1080p Full HD (${s1080}) - Recommended</option>
+        <option value="720">720p HD (${s720}) - Ultra Fast</option>
+        <option value="best">Best / 4K UHD (${sBest}) - Original</option>
+      `;
+
+      // Update Full Video Quick Download Banner
+      const fullQ = document.getElementById('fullQuality');
+      if (fullQ) {
+        fullQ.innerHTML = `
+          <option value="best" selected>🌟 Best / 4K UHD Original Stream (${sBest})</option>
+          <option value="1080">📺 1080p Full HD (${s1080})</option>
+          <option value="720">⚡ 720p HD (${s720})</option>
+          <option value="audio">🎵 Audio Only (MP3)</option>
+        `;
+      }
+
+      // Update Full Video Strategy Panel Dropdown
+      const fullPanelQ = document.getElementById('fullPanelQuality');
+      if (fullPanelQ) {
+        fullPanelQ.innerHTML = `
+          <option value="best" selected>🌟 Best / 4K UHD Original Stream (${sBest})</option>
+          <option value="1080">📺 1080p Full HD (${s1080})</option>
+          <option value="720">⚡ 720p HD (${s720})</option>
+        `;
+      }
+    }
+
+    // Update Full Video Quick Download Banner Badges and display
+    const fullDownloadCard = document.getElementById('fullDownloadCard');
+    const fullDownloadBadges = document.getElementById('fullDownloadBadges');
+    if (fullDownloadCard && fullDownloadBadges) {
+      fullDownloadBadges.innerHTML = `
+        <span class="badge badge-duration">⏱️ ${fetchedMeta.duration_str}</span>
+        <span class="badge badge-size">💾 ${fetchedMeta.primary_size || 'Original'}</span>
+      `;
+      fullDownloadCard.style.display = 'block';
+    }
+
+    const chDesc = document.getElementById('stratDescChapters');
+    const chContainer = document.getElementById('chapterListContainer');
+    if (fetchedMeta.has_chapters) {
+      badgesContainer.innerHTML += `<span class="badge badge-chapters">${fetchedMeta.chapters.length} Chapters</span>`;
+      chDesc.textContent = `${fetchedMeta.chapters.length} chapters found`;
+      chContainer.innerHTML = '';
+      fetchedMeta.chapters.forEach(ch => {
+        const item = document.createElement('div');
+        item.className = 'chapter-item';
+        item.innerHTML = `<span>${ch.title}</span><span class="chapter-time">${ch.timestamp_str} (${ch.duration_str})</span>`;
+        chContainer.appendChild(item);
+      });
+    } else {
+      chDesc.textContent = 'Not in this video';
+      chContainer.innerHTML = '<div style="color: var(--muted); font-size: 12px; padding: 6px;">This video does not have timestamped chapters. Use Sequential Split.</div>';
+      if (currentStrategy === 'chapters') setStrategy('sequential');
+    }
+
+    const vDesc = document.getElementById('stratDescViral');
+    const vContainer = document.getElementById('viralListContainer');
+    if (fetchedMeta.has_peaks) {
+      badgesContainer.innerHTML += `<span class="badge badge-viral">${fetchedMeta.peaks.length} Viral Peaks</span>`;
+      vDesc.textContent = `${fetchedMeta.peaks.length} peaks detected`;
+      vContainer.innerHTML = '';
+      fetchedMeta.peaks.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'viral-item';
+        item.innerHTML = `
+          <span>🔥 Peak #${p.rank} (${p.start}s - ${p.end}s)</span>
+          <span style="color: var(--amber); font-weight: 600;">${p.score_pct}% Retention</span>
+        `;
+        vContainer.appendChild(item);
+      });
+    } else {
+      vDesc.textContent = p.is_yt ? 'No retention data' : 'YouTube only';
+      vContainer.innerHTML = `<div style="color: var(--muted); font-size: 12px; padding: 6px;">Audience retention heatmap is a YouTube-specific metric. For ${p.name}, use Sequential Split or Smart Silence Snapping.</div>`;
+      if (currentStrategy === 'viral') setStrategy('sequential');
+    }
+
+    card.classList.add('active');
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function startFullDownload() {
+  const qualityVal = document.getElementById('fullQuality').value;
+  const isAudio = qualityVal === 'audio';
+  const q = isAudio ? 'best' : qualityVal;
+  startJob({
+    strategy: 'full',
+    quality: q,
+    mode: isAudio ? 'audio' : 'video',
+    ignoreTrim: true
+  });
+}
+
+async function startJob(overrides = {}) {
+  const url = document.getElementById('url').value.trim();
+  const length = parseInt(document.getElementById('length').value, 10) || 60;
+  const strategy = overrides.strategy || currentStrategy;
+  const mode = overrides.mode || currentMode;
+  
+  let quality = overrides.quality;
+  if (!quality) {
+    quality = (strategy === 'full') ? document.getElementById('fullPanelQuality').value : document.getElementById('quality').value;
+  }
+
+  const aspect = document.getElementById('aspect').value;
+  const snapSilence = document.getElementById('snapSilence').checked;
+  const addProgressBar = document.getElementById('addProgressBar').checked;
+  const prefix = document.getElementById('prefix').value.trim();
+  const isTrim = overrides.ignoreTrim ? false : document.getElementById('enableTrim').checked;
+  const startTime = isTrim ? document.getElementById('startTime').value.trim() : '';
+  const endTime = isTrim ? document.getElementById('endTime').value.trim() : '';
+
+  const btn = document.getElementById('startBtn');
+  const btnFull = document.getElementById('btnFullDownload');
+  const statusBox = document.getElementById('statusBox');
+  const errorEl = document.getElementById('error');
+  const clipsSection = document.getElementById('clipsSection');
+
+  errorEl.style.display = 'none';
+  clipsSection.style.display = 'none';
+  document.getElementById('clipsList').innerHTML = '';
+
+  if (currentSource === 'yt' && !url) {
+    showError('Please paste a video link (e.g. YouTube, TikTok, Twitter/X, Instagram, Vimeo, direct MP4, etc.).');
+    return;
+  }
+  if (currentSource === 'upload' && !currentUploadId) {
+    showError('Please select or drag a video file to upload first.');
+    return;
+  }
+
+  btn.disabled = true;
+  if (btnFull) btnFull.disabled = true;
+  statusBox.classList.add('active');
+  document.getElementById('statusSpinner').style.display = 'block';
+
+  if (strategy === 'full') {
+    document.getElementById('statusTitle').textContent = `Downloading full video in ${quality === 'best' ? 'Original 4K UHD' : quality + 'p'}...`;
+  } else {
+    document.getElementById('statusTitle').textContent = currentSource === 'upload' ? 'Starting video clipping...' : 'Connecting to video host...';
+  }
+  document.getElementById('statusDetail').textContent = 'Initializing pipeline...';
+  document.getElementById('progressFill').style.width = '5%';
+  document.getElementById('statusPct').textContent = '5%';
+
+  try {
+    const res = await fetch('/api/start', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        url: currentSource === 'yt' ? url : '',
+        upload_id: currentSource === 'upload' ? currentUploadId : null,
+        clip_length: length,
+        quality: quality,
+        aspect_ratio: aspect,
+        mode: mode,
+        strategy: strategy,
+        snap_silence: snapSilence,
+        add_progress_bar: addProgressBar,
+        prefix: prefix,
+        start_time: startTime,
+        end_time: endTime
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      showError(data.error || 'Failed to start processing.');
+      btn.disabled = false;
+      if (btnFull) btnFull.disabled = false;
+      statusBox.classList.remove('active');
+      return;
+    }
+    currentJobId = data.job_id;
+    document.getElementById('zipAllBtn').href = `/api/zip/${currentJobId}`;
+    pollStatus();
+  } catch (e) {
+    showError('Could not reach the server. Make sure app.py is running.');
+    btn.disabled = false;
+    if (btnFull) btnFull.disabled = false;
+    statusBox.classList.remove('active');
+  }
+}
+
+function pollStatus() {
+  clearInterval(pollTimer);
+  pollTimer = setInterval(async () => {
+    try {
+      const res = await fetch(`/api/status/${currentJobId}`);
+      if (!res.ok) return;
+      const job = await res.json();
+
+      const rawMsg = job.message || job.status || '';
+      document.getElementById('statusDetail').textContent = rawMsg;
+
+      let pct = 0;
+      if (job.progress !== undefined && job.progress !== null) {
+        pct = Math.round(job.progress);
+      } else if (job.status === 'downloading') {
+        pct = 25;
+      } else if (rawMsg.includes('clip') || rawMsg.includes('Splitting') || rawMsg.includes('Rendering')) {
+        const match = rawMsg.match(/\((\d+)\/(\d+)\)/);
+        if (match) {
+          const cur = parseInt(match[1], 10);
+          const total = parseInt(match[2], 10);
+          pct = Math.round(50 + ((cur / total) * 50));
+        } else {
+          pct = 60;
+        }
+      }
+
+      const isFullJob = (job.strategy === 'full');
+      if (job.status === 'splitting') {
+        document.getElementById('statusTitle').textContent = isFullJob ? 'Exporting pristine full video file...' : (job.mode === 'audio' ? 'Extracting audio clips...' : 'Rendering clips with effects...');
+      } else if (job.status === 'downloading') {
+        document.getElementById('statusTitle').textContent = isFullJob ? 'Downloading original full-length stream...' : 'Downloading video...';
+      } else {
+        document.getElementById('statusTitle').textContent = 'Processing...';
+      }
+
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('statusPct').textContent = pct + '%';
+
+      if (job.status === 'done') {
+        clearInterval(pollTimer);
+        document.getElementById('progressFill').style.width = '100%';
+        document.getElementById('statusPct').textContent = '100%';
+        document.getElementById('statusTitle').textContent = isFullJob ? 'Full Video Ready!' : 'Completed!';
+        document.getElementById('statusSpinner').style.display = 'none';
+        document.getElementById('startBtn').disabled = false;
+        const btnFull = document.getElementById('btnFullDownload');
+        if (btnFull) btnFull.disabled = false;
+        setTimeout(() => {
+          document.getElementById('statusBox').classList.remove('active');
+        }, 1200);
+        renderClips(job.clips, job.clip_details, job.total_size_mb, job.strategy, job.saved_to);
+        loadHistory();
+      } else if (job.status === 'error') {
+        clearInterval(pollTimer);
+        document.getElementById('startBtn').disabled = false;
+        const btnFull = document.getElementById('btnFullDownload');
+        if (btnFull) btnFull.disabled = false;
+        document.getElementById('statusBox').classList.remove('active');
+        showError(job.error || 'Something went wrong during processing.');
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }, 1000);
+}
+
+let currentSavedPath = null;
+
+function openSavedLocation() {
+  if (!currentSavedPath) return;
+  fetch('/api/open_folder', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ path: currentSavedPath })
+  }).catch(e => console.error(e));
+}
+
+function renderClips(clips, clipDetails, totalSizeMb, jobStrategy, savedTo) {
+  const section = document.getElementById('clipsSection');
+  const list = document.getElementById('clipsList');
+  const sizeSuffix = (totalSizeMb && totalSizeMb > 0) ? ` (${totalSizeMb} MB Total)` : '';
+  const isFull = (jobStrategy === 'full' || currentStrategy === 'full' || (clips.length === 1 && !clips[0].startsWith('clip_')));
+
+  const savedBanner = document.getElementById('savedBanner');
+  if (savedTo) {
+    currentSavedPath = savedTo;
+    document.getElementById('savedLocationText').textContent = savedTo;
+    savedBanner.style.display = 'flex';
+  } else {
+    savedBanner.style.display = 'none';
+  }
+
+  if (isFull) {
+    document.getElementById('clipsHeader').textContent = `Full Video Ready${sizeSuffix}`;
+    document.getElementById('zipAllBtn').textContent = 'Download File (ZIP)';
+  } else {
+    document.getElementById('clipsHeader').textContent = `${clips.length} Clips Ready${sizeSuffix}`;
+    document.getElementById('zipAllBtn').innerHTML = `
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+      Download All as ZIP
+    `;
+  }
+  list.innerHTML = '';
+
+  const detailMap = {};
+  if (clipDetails && Array.isArray(clipDetails)) {
+    clipDetails.forEach(d => { detailMap[d.name] = d; });
+  }
+
+  clips.forEach((name) => {
+    const row = document.createElement('div');
+    row.className = 'clip-row';
+    const clipUrl = `/clips/${currentJobId}/${name}`;
+    const isAudio = name.endsWith('.mp3');
+    const d = detailMap[name];
+    const sizeBadge = d ? `<span class="clip-size-badge">💾 ${d.size_str}</span>` : '';
+
+    const iconSvg = isAudio ?
+      `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>` :
+      `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
+
+    row.innerHTML = `
+      <div class="clip-info">
+        ${iconSvg}
+        <span>${name}</span>
+        ${sizeBadge}
+      </div>
+      <div class="clip-actions">
+        <button class="btn-preview" onclick="openPreview('${clipUrl}', '${name}', ${isAudio})">Preview</button>
+        <a class="btn-download" href="${clipUrl}?download=1" download>Download</a>
+      </div>
+    `;
+    list.appendChild(row);
+  });
+  section.style.display = 'block';
+}
+
+function openPreview(url, name, isAudio) {
+  const modal = document.getElementById('previewModal');
+  const video = document.getElementById('modalVideo');
+  const audio = document.getElementById('modalAudio');
+  document.getElementById('modalClipTitle').textContent = name;
+
+  if (isAudio) {
+    video.style.display = 'none';
+    audio.style.display = 'block';
+    audio.src = url;
+    audio.play().catch(() => {});
+  } else {
+    audio.style.display = 'none';
+    video.style.display = 'block';
+    video.src = url;
+    video.play().catch(() => {});
+  }
+  modal.classList.add('open');
+}
+
+function closePreview(e) {
+  if (e && e.target !== document.getElementById('previewModal') && !e.target.classList.contains('modal-close')) {
+    return;
+  }
+  const modal = document.getElementById('previewModal');
+  const video = document.getElementById('modalVideo');
+  const audio = document.getElementById('modalAudio');
+  video.pause();
+  video.src = '';
+  audio.pause();
+  audio.src = '';
+  modal.classList.remove('open');
+}
+
+function toggleHistory() {
+  const list = document.getElementById('historyList');
+  const arrow = document.getElementById('historyArrow');
+  const isOpen = list.classList.toggle('open');
+  arrow.textContent = isOpen ? '▲' : '▼';
+  if (isOpen) loadHistory();
+}
+
+async function loadHistory() {
+  try {
+    const res = await fetch('/api/history');
+    const data = await res.json();
+    const list = document.getElementById('historyList');
+    const badge = document.getElementById('historyCountBadge');
+    badge.textContent = `(${data.history.length})`;
+
+    if (data.history.length === 0) {
+      list.innerHTML = '<div style="color: var(--muted); padding: 10px; font-size: 13px;">No past clips yet.</div>';
+      return;
+    }
+
+    list.innerHTML = '';
+    data.history.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'history-item';
+      const dateStr = new Date(item.created_at * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      row.innerHTML = `
+        <div class="history-info">
+          <span class="history-id">Job ${item.job_id}</span>
+          <span class="history-meta">${item.clip_count} clips • ${item.size_mb} MB • ${dateStr}</span>
+        </div>
+        <div class="history-actions">
+          <button class="btn-action-small" onclick="viewPastJob('${item.job_id}', ${JSON.stringify(item.clips).replace(/"/g, '&quot;')}, ${item.size_mb})">View</button>
+          <a class="btn-action-small" href="/api/zip/${item.job_id}" download>ZIP</a>
+          <button class="btn-action-small btn-delete-small" onclick="deletePastJob('${item.job_id}')">Delete</button>
+        </div>
+      `;
+      list.appendChild(row);
+    });
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function deletePastJob(jobId) {
+  if (!confirm(`Delete clips for job ${jobId}?`)) return;
+  try {
+    await fetch(`/api/delete/${jobId}`, { method: 'POST' });
+    loadHistory();
+    if (currentJobId === jobId) {
+      document.getElementById('clipsSection').style.display = 'none';
+    }
+  } catch (e) {
+    alert('Failed to delete job.');
+  }
+}
+
+function viewPastJob(jobId, clips, sizeMb) {
+  currentJobId = jobId;
+  document.getElementById('zipAllBtn').href = `/api/zip/${jobId}`;
+  renderClips(clips, null, sizeMb);
+  window.scrollTo({ top: 400, behavior: 'smooth' });
+}
+
+function showError(msg) {
+  const errorEl = document.getElementById('error');
+  errorEl.textContent = msg;
+  errorEl.style.display = 'block';
+}
+
+loadHistory();
+</script>
+</body>
+</html>

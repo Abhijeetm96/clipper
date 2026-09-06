@@ -1,0 +1,37 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Temporary media storage and batch directories
+downloads/*
+!downloads/.gitkeep
+clips/*
+!clips/.gitkeep
+*.temp.mp4
+*.part
+*.ytdl
+*.mp4
+*.mp3
+*.webm
+*.mkv
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# IDE / Editor configuration
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment variables & secrets
+.env
