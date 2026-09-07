@@ -1679,16 +1679,16 @@
 <body>
 
 <!-- Quirky Background Canvas: Infographics, Doodles, Post-It Notes & Quotes -->
-<div class="bg-quirky-canvas">
+<div class="bg-quirky-canvas" id="quirkyCanvas">
   <div class="ambient-glow-tl"></div>
   <div class="ambient-glow-tr"></div>
   <div class="ambient-glow-br"></div>
   <div class="bg-mountain-silhouette"></div>
 
   <!-- Left Side Quirky Column -->
-  <aside class="quirky-col-left" aria-hidden="true">
+  <aside class="quirky-col-left" id="quirkyColLeft" aria-hidden="true">
     <!-- Doodle Arrow pointing to Search Bar -->
-    <div class="doodle-arrow-block">
+    <div class="doodle-arrow-block" id="quirkySlotArrowLeft">
       <div class="doodle-arrow-text">Drop video link here ↴</div>
       <svg class="doodle-arrow-svg" viewBox="0 0 100 50">
         <path d="M 10 15 Q 55 5, 80 35 Q 85 40, 92 45" />
@@ -1697,7 +1697,7 @@
     </div>
 
     <!-- Infographic: Repurposing Velocity -->
-    <div class="quirky-card card-velocity">
+    <div class="quirky-card card-velocity" id="quirkySlotCardLeft">
       <div class="tape-strip"></div>
       <div class="card-velocity-pill">⚡ REPURPOSING VELOCITY</div>
       <div class="card-velocity-stat">10x Speed</div>
@@ -1705,13 +1705,13 @@
     </div>
 
     <!-- Quirky Quote: Attention Span -->
-    <div class="quirky-handwriting quote-attention">
+    <div class="quirky-handwriting quote-attention" id="quirkySlotQuoteLeft">
       Attention Span: <span>8.2s</span> ⏱️<br>
       Make every frame hook 'em!
     </div>
 
     <!-- Infographic: Audience Reach -->
-    <div class="quirky-card card-reach">
+    <div class="quirky-card card-reach" id="quirkySlotReachLeft">
       <div class="card-reach-title">📈 +340% Viral Reach</div>
       <div class="card-reach-tags">
         <span>✨ Shorts</span> • <span>TikTok</span> • <span>Reels</span>
@@ -1719,12 +1719,12 @@
     </div>
 
     <!-- Doodle: Cut The Fluff -->
-    <div class="doodle-cut-fluff">
+    <div class="doodle-cut-fluff" id="quirkySlotCutLeft">
       ✂️ ┈┈ Cut the fluff ┈┈ ✦
     </div>
 
     <!-- Creator Post-It Note -->
-    <div class="creator-postit">
+    <div class="creator-postit" id="quirkySlotPostitLeft">
       <div class="postit-pin">📌</div>
       <div class="postit-header">Creator Rule #1</div>
       <div class="postit-body">
@@ -1734,12 +1734,12 @@
   </aside>
 
   <!-- Right Side Quirky Column -->
-  <aside class="quirky-col-right" aria-hidden="true">
+  <aside class="quirky-col-right" id="quirkyColRight" aria-hidden="true">
     <!-- Original Beloved Quote 1 -->
-    <div class="quirky-handwriting quote-ideas">Ideas<br>Travel<br>Further</div>
+    <div class="quirky-handwriting quote-ideas" id="quirkySlotQuoteRightTop">Ideas<br>Travel<br>Further</div>
 
     <!-- Infographic: Retention Peak -->
-    <div class="quirky-card card-retention">
+    <div class="quirky-card card-retention" id="quirkySlotCardRight">
       <div class="card-retention-title">🎯 83% Retention</div>
       <div class="card-retention-sub">🔥 Viral Replay Heatmap</div>
       <svg width="100%" height="24" viewBox="0 0 160 24" fill="none" style="margin-top:2px;">
@@ -1750,7 +1750,7 @@
     </div>
 
     <!-- Doodle: Film Strip Reel & Sparkles -->
-    <div class="film-strip-doodle">
+    <div class="film-strip-doodle" id="quirkySlotDoodleRight">
       <span class="twinkle-star">✦</span>
       <svg width="70" height="34" viewBox="0 0 70 34" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="2" y="2" width="66" height="30" rx="4" />
@@ -1762,15 +1762,15 @@
     </div>
 
     <!-- Original Beloved Quote 2 -->
-    <div class="quirky-handwriting quote-possibilities">Same<br>Content.<br>More<br>Possibilities.</div>
+    <div class="quirky-handwriting quote-possibilities" id="quirkySlotQuoteRightMid">Same<br>Content.<br>More<br>Possibilities.</div>
 
     <!-- Creator Flow Recipe Pill -->
-    <div class="creator-flow-pill">
+    <div class="creator-flow-pill" id="quirkySlotFlowRight">
       ☕ ➔ 🎙️ ➔ ✂️ ➔ 🚀
     </div>
 
     <!-- Doodle Arrow pointing to CTA -->
-    <div class="doodle-arrow-block" style="--rot: 3deg; margin-top: 10px;">
+    <div class="doodle-arrow-block" id="quirkySlotArrowRight" style="--rot: 3deg; margin-top: 10px;">
       <div class="doodle-arrow-text">One click to create! ↴</div>
       <svg class="doodle-arrow-svg" viewBox="0 0 100 50" style="transform: scaleX(-1);">
         <path d="M 10 15 Q 55 5, 80 35 Q 85 40, 92 45" />
@@ -1798,6 +1798,9 @@
       <a href="https://github.com/Abhijeetm96/clipper" target="_blank" rel="noopener noreferrer" class="btn-star-repo" title="Star this repository on GitHub">
         <span>⭐ Star</span>
       </a>
+      <button type="button" class="btn-theme-toggle" id="shuffleVibesBtn" onclick="randomizeQuirkyCanvas(true)" title="Shuffle Quirky Canvas (New ideas every session!)">
+        <span id="shuffleIcon">🎲</span>
+      </button>
       <button type="button" class="btn-theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark / Light Mode">
         <span id="themeIcon">☀️</span>
       </button>
@@ -2233,6 +2236,331 @@ function toggleTheme() {
   const isDark = document.body.classList.toggle('dark-theme');
   document.getElementById('themeIcon').textContent = isDark ? '🌙' : '☀️';
   localStorage.setItem('clipper_theme', isDark ? 'dark' : 'light');
+}
+
+// Quirky Canvas Dynamic Randomization Catalog
+const QUIRKY_POOLS = {
+  arrowLeft: [
+    { text: "Drop video link here ↴", rot: -2 },
+    { text: "Paste raw clip link ↴", rot: -3 },
+    { text: "Feed the clipper ↴", rot: -1.5 },
+    { text: "Viral clip starts here ↴", rot: -3.5 },
+    { text: "Turn video into gold ↴", rot: -2 },
+    { text: "Drop link, get bangers ↴", rot: -2.5 }
+  ],
+  cardLeft: [
+    {
+      pill: "⚡ REPURPOSING VELOCITY",
+      color: "var(--amber)",
+      stat: "10x Speed",
+      sub: "1 Long Video ➔ 12 Viral Shorts",
+      rot: 2.5
+    },
+    {
+      pill: "🎙️ PODCAST MULTIPLIER",
+      color: "var(--purple)",
+      stat: "15+ Bangers",
+      sub: "Auto-detected chapters & cuts",
+      rot: -2.5
+    },
+    {
+      pill: "⏱️ TIME SAVER",
+      color: "var(--cyan)",
+      stat: "4.5 Hrs / Wk",
+      sub: "Saved on tedious timeline edits",
+      rot: 3
+    },
+    {
+      pill: "🚀 OUTPUT BOOST",
+      color: "#ec4899",
+      stat: "+500% Volume",
+      sub: "Zero extra studio recording",
+      rot: -2
+    },
+    {
+      pill: "🔥 SHORT-FORM FORMULA",
+      color: "var(--amber)",
+      stat: "60s Max",
+      sub: "Optimized for TikTok & Reels",
+      rot: 2
+    }
+  ],
+  quoteLeft: [
+    { html: `Attention Span: <span>8.2s</span> ⏱️<br>Make every frame hook 'em!`, rot: -4 },
+    { html: `Don't recreate from scratch.<br><span>Repurpose</span> with intent. ✨`, rot: 3 },
+    { html: `The first <span>3 seconds</span><br>decide your algorithm fate 🪝`, rot: -5 },
+    { html: `Silence is the cue to swipe.<br>Keep the rhythm <span>snappy</span> ✂️`, rot: 4 },
+    { html: `One golden podcast,<br><span>infinite</span> short clips 💫`, rot: -3 },
+    { html: `Stop editing for hours.<br>Let <span>automation</span> cut the noise 🚀`, rot: 2.5 }
+  ],
+  reachLeft: [
+    { title: "📈 +340% Viral Reach", tags: ["✨ Shorts", "TikTok", "Reels"], rot: -3 },
+    { title: "👀 2.8x Watch-Through", tags: ["⚡ Smart Silence", "No Gaps"], rot: 2.5 },
+    { title: "📱 9:16 Auto-Blurred", tags: ["🔥 100% Screen", "No Black Bars"], rot: -2 },
+    { title: "📊 +420% Impressions", tags: ["🚀 Multi-Platform", "FYP Ready"], rot: 3 },
+    { title: "🎯 91% Viewer Retention", tags: ["✂️ Snappy Cuts", "Golden Hook"], rot: -3.5 }
+  ],
+  cutLeft: [
+    { text: "✂️ ┈┈ Cut the fluff ┈┈ ✦", rot: 2 },
+    { text: "🍿 ┈┈ Keep the gold nuggets ┈┈ ✦", rot: -2 },
+    { text: "⚡ ┈┈ Hook 'em in 3s ┈┈ ✦", rot: 3 },
+    { text: "🎬 ┈┈ From timeline to viral ┈┈ ✦", rot: -1.5 },
+    { text: "💎 ┈┈ Zero fluff, pure value ┈┈ ✦", rot: 2.5 }
+  ],
+  postitLeft: [
+    {
+      header: "Creator Rule #1",
+      body: "Silence is the viewer's cue to scroll away. Smart Silence keeps 'em glued!",
+      rot: -4.5
+    },
+    {
+      header: "Creator Rule #2",
+      body: "Vertical 9:16 captures 100% of mobile screen real estate. Never leave dead borders!",
+      rot: 3.5
+    },
+    {
+      header: "Creator Rule #3",
+      body: "One 60-min podcast contains at least 7 viral standalone soundbites. Extract 'em!",
+      rot: -3
+    },
+    {
+      header: "Creator Rule #4",
+      body: "Visual movement in the first 1.5 seconds stops the thumb dead in its tracks.",
+      rot: 4
+    },
+    {
+      header: "Creator Rule #5",
+      body: "High replay rates trigger algorithm amplification. Loop-friendly endings print views!",
+      rot: -5
+    }
+  ],
+  quoteRightTop: [
+    { html: "Ideas<br>Travel<br>Further", rot: -10 },
+    { html: "Create Once.<br>Publish<br>Everywhere.", rot: -7 },
+    { html: "Attention Is<br>The Modern<br>Currency.", rot: -9 },
+    { html: "Cut Faster.<br>Ship Daily.<br>Grow Big.", rot: -8 },
+    { html: "Every Video<br>Hides 10<br>Viral Hits.", rot: -10 }
+  ],
+  cardRight: [
+    {
+      title: "🎯 83% Retention",
+      sub: "🔥 Viral Replay Heatmap",
+      svg: `<path d="M 5 20 Q 30 18, 55 12 T 95 6 T 125 15 T 155 4" stroke="#10b981" stroke-width="2.2" stroke-linecap="round"/><circle cx="95" cy="6" r="3.5" fill="#f59e0b" /><circle cx="155" cy="4" r="3.5" fill="#ef4444" />`,
+      rot: 3
+    },
+    {
+      title: "📈 +280% Watch Time",
+      sub: "📱 9:16 Vertical Crop & Blur",
+      svg: `<path d="M 5 22 Q 40 20, 80 14 T 130 8 T 155 3" stroke="#8b5cf6" stroke-width="2.2" stroke-linecap="round"/><circle cx="155" cy="3" r="3.5" fill="#a855f7" />`,
+      rot: -2.5
+    },
+    {
+      title: "⚡ Lossless Trimming",
+      sub: "✂️ Direct Stream Fast Copy",
+      svg: `<path d="M 5 16 L 40 16 L 40 6 L 80 6 L 80 18 L 120 18 L 120 8 L 155 8" stroke="#06b6d4" stroke-width="2.2" stroke-linecap="round"/><circle cx="80" cy="18" r="3.5" fill="#06b6d4" />`,
+      rot: 3.5
+    },
+    {
+      title: "💎 4K UHD Clarity",
+      sub: "🌟 Lossless Source Codecs",
+      svg: `<path d="M 5 18 C 35 22, 65 4, 95 12 C 125 20, 140 6, 155 8" stroke="#3b82f6" stroke-width="2.2" stroke-linecap="round"/><circle cx="95" cy="12" r="3.5" fill="#3b82f6" />`,
+      rot: -3
+    },
+    {
+      title: "🎧 Studio 320k MP3",
+      sub: "🎵 Crisp Podcast Audio",
+      svg: `<path d="M 5 14 Q 25 2, 45 14 T 85 14 T 125 14 T 155 8" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round"/><circle cx="125" cy="14" r="3.5" fill="#f59e0b" />`,
+      rot: 2.5
+    }
+  ],
+  doodleRight: [
+    {
+      content: `<span class="twinkle-star">✦</span><svg width="70" height="34" viewBox="0 0 70 34" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="66" height="30" rx="4" /><line x1="2" y1="9" x2="68" y2="9" stroke-dasharray="3,3" /><line x1="2" y1="25" x2="68" y2="25" stroke-dasharray="3,3" /><polygon points="30 13, 30 21, 42 17" fill="currentColor" /></svg><span class="twinkle-star" style="animation-delay: 1.5s;">✧</span>`,
+      rot: 4
+    },
+    {
+      content: `<span class="twinkle-star">✨</span><span style="font-family:'Caveat',cursive;font-size:24px;font-weight:700;color:var(--doodle-accent);">🎧 ılıılı Audio Waves ılıılı</span><span class="twinkle-star">✨</span>`,
+      rot: -3
+    },
+    {
+      content: `<span class="twinkle-star">✦</span><span style="font-size:22px;">🚀 ➔ 🌌 ➔ 🏆</span><span class="twinkle-star">✧</span>`,
+      rot: 3
+    },
+    {
+      content: `<span class="twinkle-star">✦</span><span style="font-family:'Caveat',cursive;font-size:23px;font-weight:700;color:var(--purple);">⚡ 100% Creator Fuel ⚡</span><span class="twinkle-star">✧</span>`,
+      rot: -2
+    }
+  ],
+  quoteRightMid: [
+    { html: "Same<br>Content.<br>More<br>Possibilities.", rot: 8 },
+    { html: "Less Editing.<br>More<br>Creating.", rot: 6 },
+    { html: "Turn Hours<br>Into Seconds<br>Of Gold.", rot: 9 },
+    { html: "The Algorithm<br>Rewards<br>Consistency.", rot: 7 },
+    { html: "Work Smarter.<br>Clip Faster.<br>Stay Inspired.", rot: 8 }
+  ],
+  flowRight: [
+    { text: "☕ ➔ 🎙️ ➔ ✂️ ➔ 🚀", rot: -3.5 },
+    { text: "💡 Idea ➔ 📹 Record ➔ ⚡ Clip ➔ 🏆 FYP", rot: 2.5 },
+    { text: "🎧 Listen ➔ ✂️ Trim ➔ 📱 Share ➔ 📈 Grow", rot: -2 },
+    { text: "💻 Code ➔ ☕ Coffee ➔ 🎬 Viral Clips", rot: 3 },
+    { text: "🎬 Capture ➔ ✂️ Cut ➔ 🚀 Dominate", rot: -3 }
+  ],
+  arrowRight: [
+    { text: "One click to create! ↴", rot: 3 },
+    { text: "Magic happens here! ↴", rot: 2 },
+    { text: "Click to clip & conquer ↴", rot: 4 },
+    { text: "Instant virality below ↴", rot: 2.5 },
+    { text: "Ready to blow up? ↴", rot: 3.5 }
+  ]
+};
+
+function pickRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function randomizeQuirkyCanvas(animate = false) {
+  const colLeft = document.getElementById('quirkyColLeft');
+  const colRight = document.getElementById('quirkyColRight');
+  const shuffleBtn = document.getElementById('shuffleIcon');
+
+  if (animate && shuffleBtn) {
+    shuffleBtn.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    shuffleBtn.style.transform = 'rotate(360deg) scale(1.3)';
+    setTimeout(() => {
+      shuffleBtn.style.transform = 'rotate(0deg) scale(1)';
+    }, 450);
+  }
+
+  const applyChanges = () => {
+    // 1. Arrow Left
+    const aL = pickRandom(QUIRKY_POOLS.arrowLeft);
+    const elAL = document.getElementById('quirkySlotArrowLeft');
+    if (elAL) {
+      elAL.style.setProperty('--rot', `${aL.rot}deg`);
+      const txt = elAL.querySelector('.doodle-arrow-text');
+      if (txt) txt.textContent = aL.text;
+    }
+
+    // 2. Card Left
+    const cL = pickRandom(QUIRKY_POOLS.cardLeft);
+    const elCL = document.getElementById('quirkySlotCardLeft');
+    if (elCL) {
+      elCL.style.setProperty('--rot', `${cL.rot}deg`);
+      const pill = elCL.querySelector('.card-velocity-pill');
+      if (pill) {
+        pill.textContent = cL.pill;
+        pill.style.color = cL.color;
+      }
+      const stat = elCL.querySelector('.card-velocity-stat');
+      if (stat) stat.textContent = cL.stat;
+      const sub = elCL.querySelector('.card-velocity-sub');
+      if (sub) sub.textContent = cL.sub;
+    }
+
+    // 3. Quote Left
+    const qL = pickRandom(QUIRKY_POOLS.quoteLeft);
+    const elQL = document.getElementById('quirkySlotQuoteLeft');
+    if (elQL) {
+      elQL.style.setProperty('--rot', `${qL.rot}deg`);
+      elQL.innerHTML = qL.html;
+    }
+
+    // 4. Reach Left
+    const rL = pickRandom(QUIRKY_POOLS.reachLeft);
+    const elRL = document.getElementById('quirkySlotReachLeft');
+    if (elRL) {
+      elRL.style.setProperty('--rot', `${rL.rot}deg`);
+      const title = elRL.querySelector('.card-reach-title');
+      if (title) title.textContent = rL.title;
+      const tagsEl = elRL.querySelector('.card-reach-tags');
+      if (tagsEl) tagsEl.innerHTML = rL.tags.map(t => `<span>${t}</span>`).join(' • ');
+    }
+
+    // 5. Cut Left
+    const cutL = pickRandom(QUIRKY_POOLS.cutLeft);
+    const elCutL = document.getElementById('quirkySlotCutLeft');
+    if (elCutL) {
+      elCutL.style.setProperty('--rot', `${cutL.rot}deg`);
+      elCutL.textContent = cutL.text;
+    }
+
+    // 6. Post-It Left
+    const pL = pickRandom(QUIRKY_POOLS.postitLeft);
+    const elPL = document.getElementById('quirkySlotPostitLeft');
+    if (elPL) {
+      elPL.style.setProperty('--rot', `${pL.rot}deg`);
+      const hdr = elPL.querySelector('.postit-header');
+      if (hdr) hdr.textContent = pL.header;
+      const body = elPL.querySelector('.postit-body');
+      if (body) body.textContent = pL.body;
+    }
+
+    // 7. Quote Right Top
+    const qrT = pickRandom(QUIRKY_POOLS.quoteRightTop);
+    const elQRT = document.getElementById('quirkySlotQuoteRightTop');
+    if (elQRT) {
+      elQRT.style.setProperty('--rot', `${qrT.rot}deg`);
+      elQRT.innerHTML = qrT.html;
+    }
+
+    // 8. Card Right
+    const cR = pickRandom(QUIRKY_POOLS.cardRight);
+    const elCR = document.getElementById('quirkySlotCardRight');
+    if (elCR) {
+      elCR.style.setProperty('--rot', `${cR.rot}deg`);
+      const title = elCR.querySelector('.card-retention-title');
+      if (title) title.textContent = cR.title;
+      const sub = elCR.querySelector('.card-retention-sub');
+      if (sub) sub.textContent = cR.sub;
+      const svgEl = elCR.querySelector('svg');
+      if (svgEl) svgEl.innerHTML = cR.svg;
+    }
+
+    // 9. Doodle Right
+    const dR = pickRandom(QUIRKY_POOLS.doodleRight);
+    const elDR = document.getElementById('quirkySlotDoodleRight');
+    if (elDR) {
+      elDR.style.setProperty('--rot', `${dR.rot}deg`);
+      elDR.innerHTML = dR.content;
+    }
+
+    // 10. Quote Right Mid
+    const qrM = pickRandom(QUIRKY_POOLS.quoteRightMid);
+    const elQRM = document.getElementById('quirkySlotQuoteRightMid');
+    if (elQRM) {
+      elQRM.style.setProperty('--rot', `${qrM.rot}deg`);
+      elQRM.innerHTML = qrM.html;
+    }
+
+    // 11. Flow Right
+    const fR = pickRandom(QUIRKY_POOLS.flowRight);
+    const elFR = document.getElementById('quirkySlotFlowRight');
+    if (elFR) {
+      elFR.style.setProperty('--rot', `${fR.rot}deg`);
+      elFR.textContent = fR.text;
+    }
+
+    // 12. Arrow Right
+    const aR = pickRandom(QUIRKY_POOLS.arrowRight);
+    const elAR = document.getElementById('quirkySlotArrowRight');
+    if (elAR) {
+      elAR.style.setProperty('--rot', `${aR.rot}deg`);
+      const txt = elAR.querySelector('.doodle-arrow-text');
+      if (txt) txt.textContent = aR.text;
+    }
+  };
+
+  if (animate && colLeft && colRight) {
+    colLeft.style.opacity = '0.2';
+    colRight.style.opacity = '0.2';
+    setTimeout(() => {
+      applyChanges();
+      colLeft.style.opacity = '1';
+      colRight.style.opacity = '1';
+    }, 180);
+  } else {
+    applyChanges();
+  }
 }
 
 function syncToggleCard(checkboxId, cardId) {
@@ -2890,6 +3218,7 @@ function showError(msg) {
 }
 
 initTheme();
+randomizeQuirkyCanvas(false);
 loadHistory();
 </script>
 </body>
