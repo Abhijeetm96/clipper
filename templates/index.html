@@ -45,7 +45,18 @@
     --cyan: #06b6d4;
     --cyan-bg: #ecfeff;
     
-    --quote-color: #7b8fa8;
+    --quote-color: #52667d;
+    --quote-highlight: #2563eb;
+    --doodle-stroke: #94a3b8;
+    --doodle-accent: #6366f1;
+    --quirky-card-bg: rgba(255, 255, 255, 0.88);
+    --quirky-card-border: rgba(226, 232, 240, 0.85);
+    --quirky-card-shadow: 0 8px 24px rgba(15, 23, 42, 0.06), 0 2px 6px rgba(15, 23, 42, 0.04);
+    --tape-bg: rgba(253, 224, 71, 0.8);
+    --postit-bg: #fefce8;
+    --postit-border: #fde047;
+    --postit-text: #713f12;
+    --postit-shadow: 0 10px 25px rgba(202, 138, 4, 0.12);
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 18px;
@@ -86,7 +97,18 @@
     --purple-bg: rgba(139, 92, 246, 0.14);
     --cyan-bg: rgba(6, 182, 212, 0.12);
     
-    --quote-color: #64748b;
+    --quote-color: #94a3b8;
+    --quote-highlight: #60a5fa;
+    --doodle-stroke: #475569;
+    --doodle-accent: #818cf8;
+    --quirky-card-bg: rgba(17, 24, 39, 0.85);
+    --quirky-card-border: rgba(255, 255, 255, 0.1);
+    --quirky-card-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+    --tape-bg: rgba(253, 224, 71, 0.25);
+    --postit-bg: rgba(254, 240, 138, 0.08);
+    --postit-border: rgba(253, 224, 71, 0.25);
+    --postit-text: #fef08a;
+    --postit-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
   }
 
   * { box-sizing: border-box; }
@@ -107,55 +129,366 @@
     overflow-x: hidden;
   }
 
-  /* Artistic Background Mountain Artwork & Quotes */
-  .bg-artwork-overlay {
+  /* ==========================================================================
+     Quirky Canvas: Infographics, Doodles, Post-It Notes & Calligraphy Artwork
+     ========================================================================== */
+  .bg-quirky-canvas {
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 38%;
-    max-width: 580px;
-    background: radial-gradient(circle at 70% 40%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
-                radial-gradient(circle at 90% 80%, rgba(217, 70, 239, 0.08) 0%, transparent 55%);
+    inset: 0;
     pointer-events: none;
     z-index: 0;
     overflow: hidden;
   }
+
+  /* Ambient Studio Glows */
+  .ambient-glow-tl {
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
+  }
+  .ambient-glow-tr {
+    position: absolute;
+    top: 50px;
+    right: -80px;
+    width: 650px;
+    height: 650px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 65%);
+  }
+  .ambient-glow-br {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 700px;
+    height: 500px;
+    background: radial-gradient(ellipse at bottom right, rgba(236, 72, 153, 0.08) 0%, transparent 70%);
+  }
+
+  /* Mountain Silhouette at Bottom Right */
   .bg-mountain-silhouette {
     position: absolute;
     right: -20px;
     bottom: 0;
-    width: 100%;
-    height: 70%;
+    width: 36%;
+    max-width: 500px;
+    height: 55%;
     background-image: radial-gradient(ellipse at bottom, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
-    opacity: 0.8;
+    opacity: 0.85;
   }
-  .artistic-quote-1 {
+
+  /* Floating Animation Keyframes */
+  @keyframes floatSlow1 {
+    0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+    50% { transform: translateY(-7px) rotate(calc(var(--rot, 0deg) + 1.2deg)); }
+  }
+  @keyframes floatSlow2 {
+    0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+    50% { transform: translateY(8px) rotate(calc(var(--rot, 0deg) - 1.2deg)); }
+  }
+  @keyframes floatSlow3 {
+    0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+    50% { transform: translateY(-6px) rotate(calc(var(--rot, 0deg) - 1deg)); }
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.35; transform: scale(0.85); }
+    50% { opacity: 1; transform: scale(1.15); }
+  }
+
+  /* Anchored Quirky Columns */
+  .quirky-col-left {
     position: absolute;
-    top: 90px;
-    right: 50px;
-    font-family: 'Caveat', cursive;
-    font-size: 26px;
-    color: var(--quote-color);
-    transform: rotate(-10deg);
-    line-height: 1.1;
+    left: calc(50% - 730px);
+    top: 24px;
+    width: 235px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
     user-select: none;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   }
-  .artistic-quote-2 {
+
+  .quirky-col-right {
     position: absolute;
-    top: 480px;
-    right: 40px;
+    left: calc(50% + 495px);
+    top: 24px;
+    width: 235px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    user-select: none;
+  }
+
+  @media (max-width: 1460px) {
+    .quirky-col-left {
+      left: 14px;
+      width: 210px;
+      transform: scale(0.9);
+      transform-origin: top left;
+    }
+    .quirky-col-right {
+      left: auto;
+      right: 14px;
+      width: 210px;
+      transform: scale(0.9);
+      transform-origin: top right;
+    }
+  }
+
+  @media (max-width: 1220px) {
+    .bg-quirky-canvas { display: none; }
+  }
+
+  /* Handwritten Quotes */
+  .quirky-handwriting {
     font-family: 'Caveat', cursive;
-    font-size: 24px;
-    color: var(--quote-color);
-    transform: rotate(8deg);
     line-height: 1.15;
-    user-select: none;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    color: var(--quote-color);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
   }
-  @media (max-width: 1024px) {
-    .bg-artwork-overlay { display: none; }
+  .quote-ideas {
+    font-size: 28px;
+    font-weight: 700;
+    --rot: -10deg;
+    transform: rotate(var(--rot));
+    animation: floatSlow1 7s ease-in-out infinite;
+  }
+  .quote-possibilities {
+    font-size: 25px;
+    font-weight: 700;
+    --rot: 7deg;
+    transform: rotate(var(--rot));
+    animation: floatSlow2 8s ease-in-out infinite;
+  }
+  .quote-attention {
+    font-size: 24px;
+    font-weight: 700;
+    --rot: -4deg;
+    transform: rotate(var(--rot));
+    animation: floatSlow3 6.5s ease-in-out infinite;
+  }
+  .quote-attention span {
+    color: var(--quote-highlight);
+    font-size: 26px;
+  }
+  .quote-highlight-box {
+    color: var(--quote-highlight);
+    font-size: 21px;
+    font-weight: 700;
+  }
+
+  /* Doodle Arrows with Notes */
+  .doodle-arrow-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    --rot: -2deg;
+    transform: rotate(var(--rot));
+    animation: floatSlow1 6s ease-in-out infinite;
+  }
+  .doodle-arrow-text {
+    font-family: 'Caveat', cursive;
+    font-size: 21px;
+    font-weight: 700;
+    color: var(--quote-highlight);
+  }
+  .doodle-arrow-svg {
+    width: 90px;
+    height: 48px;
+    stroke: var(--doodle-accent);
+    fill: none;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Infographic Mini Cards & Stickers */
+  .quirky-card {
+    background: var(--quirky-card-bg);
+    border: 1px solid var(--quirky-card-border);
+    border-radius: var(--radius-md);
+    padding: 13px 15px;
+    box-shadow: var(--quirky-card-shadow);
+    backdrop-filter: blur(10px);
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  /* Tape Strip on Top of Cards */
+  .tape-strip {
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    width: 60px;
+    height: 18px;
+    background: var(--tape-bg);
+    border-radius: 2px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    opacity: 0.9;
+  }
+
+  .card-velocity {
+    --rot: 2.5deg;
+    transform: rotate(var(--rot));
+    animation: floatSlow2 7.5s ease-in-out infinite;
+  }
+  .card-velocity-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--amber);
+    margin-bottom: 5px;
+  }
+  .card-velocity-stat {
+    font-family: 'Outfit', sans-serif;
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.1;
+    margin-bottom: 3px;
+  }
+  .card-velocity-sub {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .card-reach {
+    --rot: -3deg;
+    transform: rotate(var(--rot));
+    animation: floatSlow3 8s ease-in-out infinite;
+    background: linear-gradient(135deg, var(--quirky-card-bg), rgba(139, 92, 246, 0.05));
+  }
+  .card-reach-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--purple);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .card-reach-tags {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .card-retention {
+    --rot: 3deg;
+    transform: rotate(var(--rot));
+    animation: floatSlow1 7.2s ease-in-out infinite;
+  }
+  .card-retention-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--success);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 3px;
+  }
+  .card-retention-sub {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  /* Creator Post-It Sticky Note */
+  .creator-postit {
+    background: var(--postit-bg);
+    border: 1px solid var(--postit-border);
+    color: var(--postit-text);
+    border-radius: 4px;
+    padding: 14px 16px;
+    box-shadow: var(--postit-shadow);
+    position: relative;
+    --rot: -4.5deg;
+    transform: rotate(var(--rot));
+    animation: floatSlow2 8.5s ease-in-out infinite;
+  }
+  .postit-pin {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 15px;
+  }
+  .postit-header {
+    font-family: 'Caveat', cursive;
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #b45309;
+  }
+  .postit-body {
+    font-family: 'Caveat', cursive;
+    font-size: 16.5px;
+    line-height: 1.25;
+  }
+
+  /* Scissors Cut Line Doodle */
+  .doodle-cut-fluff {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Caveat', cursive;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-muted);
+    --rot: 2deg;
+    transform: rotate(var(--rot));
+    padding: 4px 8px;
+    border: 1.5px dashed var(--doodle-stroke);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Creator Workflow Recipe Pill */
+  .creator-flow-pill {
+    background: var(--quirky-card-bg);
+    border: 1px dashed var(--doodle-accent);
+    padding: 8px 12px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--quirky-card-shadow);
+    font-family: 'Caveat', cursive;
+    font-size: 17.5px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    --rot: -3.5deg;
+    transform: rotate(var(--rot));
+    animation: floatSlow3 7.8s ease-in-out infinite;
+  }
+
+  /* Film Strip Reel Doodle */
+  .film-strip-doodle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    --rot: 4deg;
+    transform: rotate(var(--rot));
+    color: var(--doodle-accent);
+  }
+  .twinkle-star {
+    font-size: 16px;
+    color: #f59e0b;
+    animation: twinkle 3s ease-in-out infinite;
   }
 
   /* Studio Main Container */
@@ -1345,11 +1678,106 @@
 </head>
 <body>
 
-<!-- Background Artwork (Mountain Silhouette & Handwriting Quotes) -->
-<div class="bg-artwork-overlay">
-  <div class="artistic-quote-1">Ideas<br>Travel<br>Further</div>
-  <div class="artistic-quote-2">Same<br>Content.<br>More<br>Possibilities.</div>
+<!-- Quirky Background Canvas: Infographics, Doodles, Post-It Notes & Quotes -->
+<div class="bg-quirky-canvas">
+  <div class="ambient-glow-tl"></div>
+  <div class="ambient-glow-tr"></div>
+  <div class="ambient-glow-br"></div>
   <div class="bg-mountain-silhouette"></div>
+
+  <!-- Left Side Quirky Column -->
+  <aside class="quirky-col-left" aria-hidden="true">
+    <!-- Doodle Arrow pointing to Search Bar -->
+    <div class="doodle-arrow-block">
+      <div class="doodle-arrow-text">Drop video link here ↴</div>
+      <svg class="doodle-arrow-svg" viewBox="0 0 100 50">
+        <path d="M 10 15 Q 55 5, 80 35 Q 85 40, 92 45" />
+        <polyline points="78,45 92,45 88,32" />
+      </svg>
+    </div>
+
+    <!-- Infographic: Repurposing Velocity -->
+    <div class="quirky-card card-velocity">
+      <div class="tape-strip"></div>
+      <div class="card-velocity-pill">⚡ REPURPOSING VELOCITY</div>
+      <div class="card-velocity-stat">10x Speed</div>
+      <div class="card-velocity-sub">1 Long Video ➔ 12 Viral Shorts</div>
+    </div>
+
+    <!-- Quirky Quote: Attention Span -->
+    <div class="quirky-handwriting quote-attention">
+      Attention Span: <span>8.2s</span> ⏱️<br>
+      Make every frame hook 'em!
+    </div>
+
+    <!-- Infographic: Audience Reach -->
+    <div class="quirky-card card-reach">
+      <div class="card-reach-title">📈 +340% Viral Reach</div>
+      <div class="card-reach-tags">
+        <span>✨ Shorts</span> • <span>TikTok</span> • <span>Reels</span>
+      </div>
+    </div>
+
+    <!-- Doodle: Cut The Fluff -->
+    <div class="doodle-cut-fluff">
+      ✂️ ┈┈ Cut the fluff ┈┈ ✦
+    </div>
+
+    <!-- Creator Post-It Note -->
+    <div class="creator-postit">
+      <div class="postit-pin">📌</div>
+      <div class="postit-header">Creator Rule #1</div>
+      <div class="postit-body">
+        Silence is the viewer's cue to scroll away. Smart Silence keeps 'em glued!
+      </div>
+    </div>
+  </aside>
+
+  <!-- Right Side Quirky Column -->
+  <aside class="quirky-col-right" aria-hidden="true">
+    <!-- Original Beloved Quote 1 -->
+    <div class="quirky-handwriting quote-ideas">Ideas<br>Travel<br>Further</div>
+
+    <!-- Infographic: Retention Peak -->
+    <div class="quirky-card card-retention">
+      <div class="card-retention-title">🎯 83% Retention</div>
+      <div class="card-retention-sub">🔥 Viral Replay Heatmap</div>
+      <svg width="100%" height="24" viewBox="0 0 160 24" fill="none" style="margin-top:2px;">
+        <path d="M 5 20 Q 30 18, 55 12 T 95 6 T 125 15 T 155 4" stroke="#10b981" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="95" cy="6" r="3.5" fill="#f59e0b" />
+        <circle cx="155" cy="4" r="3.5" fill="#ef4444" />
+      </svg>
+    </div>
+
+    <!-- Doodle: Film Strip Reel & Sparkles -->
+    <div class="film-strip-doodle">
+      <span class="twinkle-star">✦</span>
+      <svg width="70" height="34" viewBox="0 0 70 34" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="2" width="66" height="30" rx="4" />
+        <line x1="2" y1="9" x2="68" y2="9" stroke-dasharray="3,3" />
+        <line x1="2" y1="25" x2="68" y2="25" stroke-dasharray="3,3" />
+        <polygon points="30 13, 30 21, 42 17" fill="currentColor" />
+      </svg>
+      <span class="twinkle-star" style="animation-delay: 1.5s;">✧</span>
+    </div>
+
+    <!-- Original Beloved Quote 2 -->
+    <div class="quirky-handwriting quote-possibilities">Same<br>Content.<br>More<br>Possibilities.</div>
+
+    <!-- Creator Flow Recipe Pill -->
+    <div class="creator-flow-pill">
+      ☕ ➔ 🎙️ ➔ ✂️ ➔ 🚀
+    </div>
+
+    <!-- Doodle Arrow pointing to CTA -->
+    <div class="doodle-arrow-block" style="--rot: 3deg; margin-top: 10px;">
+      <div class="doodle-arrow-text">One click to create! ↴</div>
+      <svg class="doodle-arrow-svg" viewBox="0 0 100 50" style="transform: scaleX(-1);">
+        <path d="M 10 15 Q 55 5, 80 35 Q 85 40, 92 45" />
+        <polyline points="78,45 92,45 88,32" />
+      </svg>
+    </div>
+  </aside>
 </div>
 
 <div class="studio-container">
