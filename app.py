@@ -186,6 +186,7 @@ except ImportError:
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "universal-video-clipper-production-secret-key")
 app.config["MAX_CONTENT_LENGTH"] = int(os.environ.get("MAX_CONTENT_LENGTH", 4 * 1024 * 1024 * 1024))  # 4 GB max upload
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # In-memory job tracker: job_id -> {status, message, progress, clips: [filenames], clip_details: [...], mode: "video"|"audio", error}
 JOBS = {}

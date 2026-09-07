@@ -6,86 +6,176 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #07090e;
-    --bg-surface: #0e121a;
-    --card-bg: rgba(16, 21, 30, 0.85);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --card-hover-border: rgba(255, 255, 255, 0.16);
-    --input-bg: #090c12;
-    --input-border: #1f2736;
-    --text: #f3f6fb;
-    --text-muted: #8b9bb4;
-    --text-dim: #5a6882;
+    /* Light Theme (Default - matching mockup) */
+    --bg-canvas: #f4f6fb;
+    --bg-surface: #ffffff;
+    --card-bg: #ffffff;
+    --card-border: #e2e8f0;
+    --card-hover-border: #cbd5e1;
+    --card-shadow: 0 6px 24px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03);
+    --card-subtle-bg: #f8fafc;
+    --input-bg: #ffffff;
+    --input-border: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --text-dim: #94a3b8;
     
-    /* Accents */
-    --accent: #ff385c;
-    --accent-hover: #ff5271;
-    --accent-glow: rgba(255, 56, 92, 0.35);
-    --accent-gradient: linear-gradient(135deg, #ff385c 0%, #ff6b4a 100%);
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --primary-gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    --hero-btn-gradient: linear-gradient(90deg, #2563eb 0%, #8b5cf6 55%, #d946ef 100%);
+    --hero-btn-hover: linear-gradient(90deg, #1d4ed8 0%, #7c3aed 55%, #c026d3 100%);
     
-    /* Status Colors */
+    --active-blue-bg: #eff6ff;
+    --active-blue-border: #3b82f6;
+    --active-blue-text: #1d4ed8;
+    
     --success: #10b981;
-    --success-hover: #059669;
-    --success-bg: rgba(16, 185, 129, 0.12);
-    --success-border: rgba(16, 185, 129, 0.3);
+    --success-bg: #ecfdf5;
+    --success-border: #a7f3d0;
+    
     --amber: #f59e0b;
-    --amber-bg: rgba(245, 158, 11, 0.12);
+    --amber-bg: #fffbeb;
     --purple: #8b5cf6;
-    --purple-bg: rgba(139, 92, 246, 0.14);
+    --purple-bg: #f5f3ff;
     --cyan: #06b6d4;
-    --cyan-bg: rgba(6, 182, 212, 0.12);
-    --border: #1f2737;
+    --cyan-bg: #ecfeff;
+    
+    --quote-color: #7b8fa8;
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 18px;
     --radius-xl: 24px;
+    --radius-pill: 9999px;
+  }
+
+  body.dark-theme {
+    /* Dark Theme */
+    --bg-canvas: #090c13;
+    --bg-surface: #0f141f;
+    --card-bg: rgba(17, 24, 38, 0.88);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-hover-border: rgba(255, 255, 255, 0.16);
+    --card-shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
+    --card-subtle-bg: rgba(14, 18, 28, 0.65);
+    --input-bg: #0c1017;
+    --input-border: #1e2638;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+    
+    --primary: #3b82f6;
+    --primary-hover: #60a5fa;
+    --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    --hero-btn-gradient: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 55%, #ec4899 100%);
+    --hero-btn-hover: linear-gradient(90deg, #2563eb 0%, #7c3aed 55%, #db2777 100%);
+    
+    --active-blue-bg: rgba(59, 130, 246, 0.14);
+    --active-blue-border: #3b82f6;
+    --active-blue-text: #60a5fa;
+    
+    --success-bg: rgba(16, 185, 129, 0.12);
+    --success-border: rgba(16, 185, 129, 0.3);
+    
+    --amber-bg: rgba(245, 158, 11, 0.12);
+    --purple-bg: rgba(139, 92, 246, 0.14);
+    --cyan-bg: rgba(6, 182, 212, 0.12);
+    
+    --quote-color: #64748b;
   }
 
   * { box-sizing: border-box; }
-  
+
   body {
     margin: 0;
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: var(--bg);
-    background-image: 
-      radial-gradient(circle at 50% -10%, rgba(99, 102, 241, 0.18) 0%, transparent 50%),
-      radial-gradient(circle at 10% 30%, rgba(255, 56, 92, 0.1) 0%, transparent 40%),
-      radial-gradient(circle at 90% 60%, rgba(16, 185, 129, 0.08) 0%, transparent 45%);
-    background-attachment: fixed;
-    color: var(--text);
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 24px 16px 60px;
+    padding: 20px 16px 60px;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+    overflow-x: hidden;
   }
 
-  /* Studio Layout Container */
+  /* Artistic Background Mountain Artwork & Quotes */
+  .bg-artwork-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 38%;
+    max-width: 580px;
+    background: radial-gradient(circle at 70% 40%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
+                radial-gradient(circle at 90% 80%, rgba(217, 70, 239, 0.08) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .bg-mountain-silhouette {
+    position: absolute;
+    right: -20px;
+    bottom: 0;
+    width: 100%;
+    height: 70%;
+    background-image: radial-gradient(ellipse at bottom, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+    opacity: 0.8;
+  }
+  .artistic-quote-1 {
+    position: absolute;
+    top: 90px;
+    right: 50px;
+    font-family: 'Caveat', cursive;
+    font-size: 26px;
+    color: var(--quote-color);
+    transform: rotate(-10deg);
+    line-height: 1.1;
+    user-select: none;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  .artistic-quote-2 {
+    position: absolute;
+    top: 480px;
+    right: 40px;
+    font-family: 'Caveat', cursive;
+    font-size: 24px;
+    color: var(--quote-color);
+    transform: rotate(8deg);
+    line-height: 1.15;
+    user-select: none;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  @media (max-width: 1024px) {
+    .bg-artwork-overlay { display: none; }
+  }
+
+  /* Studio Main Container */
   .studio-container {
     width: 100%;
-    max-width: 1040px;
+    max-width: 940px;
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 18px;
   }
 
   /* Top Navigation Bar */
-  .navbar {
-    width: 100%;
+  .top-navbar {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 14px 20px;
-    background: rgba(14, 18, 26, 0.75);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-xl);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    align-items: center;
+    padding: 10px 4px;
+    margin-bottom: 4px;
     flex-wrap: wrap;
     gap: 12px;
   }
@@ -97,311 +187,334 @@
     text-decoration: none;
     color: inherit;
   }
-
-  .nav-logo {
+  .nav-brand-icon {
     width: 38px;
     height: 38px;
     border-radius: var(--radius-md);
-    background: var(--accent-gradient);
+    background: var(--primary-gradient);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 14px var(--accent-glow);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
     flex-shrink: 0;
   }
-  .nav-logo svg {
-    width: 20px;
-    height: 20px;
+  .nav-brand-icon svg {
+    width: 18px;
+    height: 18px;
     fill: white;
   }
-
-  .nav-title-group h1 {
+  .nav-brand-text h1 {
     font-family: 'Outfit', sans-serif;
-    font-size: 19px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 800;
     margin: 0;
     letter-spacing: -0.02em;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    color: var(--text-primary);
   }
-
-  .nav-tagline {
+  .nav-brand-text span {
     font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.05em;
     color: var(--text-muted);
-    text-transform: uppercase;
+    letter-spacing: 0.02em;
   }
 
-  .nav-badge-online {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--success-bg);
-    border: 1px solid var(--success-border);
-    color: #34d399;
-    font-size: 11.5px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 9999px;
-  }
-  .nav-badge-online .status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #10b981;
-    box-shadow: 0 0 8px #10b981;
-    animation: pulseDot 2s infinite ease-in-out;
-  }
-  @keyframes pulseDot {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.85); }
-  }
-
-  .nav-actions {
+  .nav-utilities {
     display: flex;
     align-items: center;
     gap: 10px;
   }
 
-  .btn-github-star {
+  .btn-star-repo {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.06);
-    color: #e2e8f0;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    padding: 7px 15px;
-    border-radius: 9999px;
+    gap: 7px;
+    background: var(--card-bg);
+    color: var(--text-secondary);
+    border: 1px solid var(--card-border);
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
     font-size: 12.5px;
     font-weight: 600;
     text-decoration: none;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--card-shadow);
+    transition: all 0.2s;
   }
-  .btn-github-star:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(245, 158, 11, 0.6);
-    box-shadow: 0 4px 18px rgba(245, 158, 11, 0.28);
+  .btn-star-repo:hover {
+    border-color: var(--amber);
+    color: var(--text-primary);
     transform: translateY(-1px);
-    color: #ffffff;
-  }
-  .btn-github-star .star-icon {
-    filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.8));
-    animation: pulseStar 2.4s infinite ease-in-out;
-  }
-  @keyframes pulseStar {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
   }
 
-  /* Main Studio Card */
-  .studio-card {
+  /* Theme Toggle Button */
+  .btn-theme-toggle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
     background: var(--card-bg);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
     border: 1px solid var(--card-border);
-    border-radius: var(--radius-xl);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.06) inset;
-    padding: 32px 36px;
-    position: relative;
-    overflow: hidden;
-  }
-  @media (max-width: 640px) {
-    .studio-card { padding: 20px 16px; }
-  }
-
-  /* Step Headers */
-  .step-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11.5px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-    margin-bottom: 12px;
-  }
-  .step-label .step-num {
-    width: 20px;
-    height: 20px;
-    border-radius: 6px;
-    background: var(--accent-glow);
-    border: 1px solid var(--accent);
+    color: var(--text-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
-    color: white;
-  }
-
-  /* Step 1: Source & Mode Selectors */
-  .control-strip {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 18px;
-  }
-
-  .pill-group {
-    display: inline-flex;
-    background: var(--input-bg);
-    padding: 4px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border);
-    gap: 3px;
-  }
-
-  .pill-tab {
-    padding: 7px 16px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-muted);
-    border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 7px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.25s;
+    font-size: 16px;
     user-select: none;
   }
-  .pill-tab:hover {
-    color: var(--text);
-  }
-  .pill-tab.active {
-    background: rgba(255, 255, 255, 0.08);
-    color: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  }
-  .pill-tab.active.accent {
-    background: var(--accent-gradient);
-    box-shadow: 0 4px 12px var(--accent-glow);
+  .btn-theme-toggle:hover {
+    transform: rotate(20deg) scale(1.05);
+    border-color: var(--primary);
+    color: var(--primary);
   }
 
-  /* URL Input Box with Floating Paste Button */
-  .url-input-wrapper {
-    position: relative;
+  /* User Avatar Badge */
+  .user-avatar-pill {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
     display: flex;
     align-items: center;
-    margin-bottom: 16px;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    user-select: none;
   }
 
-  .url-input-icon {
-    position: absolute;
-    left: 16px;
+  /* Hero Title Section */
+  .hero-header {
+    margin-bottom: 8px;
+  }
+  .hero-kicker {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .hero-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin: 0 0 6px;
+    line-height: 1.15;
+    color: var(--text-primary);
+  }
+  .hero-title .gradient-text {
+    background: linear-gradient(135deg, #2563eb 0%, #8b5cf6 60%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-tagline {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+  @media (max-width: 640px) {
+    .hero-title { font-size: 28px; }
+  }
+
+  /* Hero URL Search Pill Box */
+  .hero-search-box {
+    display: flex;
+    align-items: center;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 6px 8px 6px 16px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.25s;
+    position: relative;
+    margin-top: 4px;
+  }
+  .hero-search-box:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 8px 28px rgba(37, 99, 235, 0.15), 0 0 0 3px rgba(37, 99, 235, 0.12);
+  }
+  .hero-search-icon {
     width: 20px;
     height: 20px;
     color: var(--text-dim);
-    pointer-events: none;
+    margin-right: 12px;
+    flex-shrink: 0;
   }
-
-  .url-input {
-    width: 100%;
-    padding: 15px 125px 15px 48px;
-    background: var(--input-bg);
-    border: 1px solid var(--input-border);
-    border-radius: var(--radius-lg);
-    color: var(--text);
-    font-size: 14.5px;
-    font-family: inherit;
+  .hero-search-input {
+    flex: 1;
+    border: none;
     outline: none;
-    transition: all 0.25s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) inset;
+    background: transparent;
+    font-size: 15px;
+    color: var(--text-primary);
+    font-family: inherit;
+    min-width: 0;
   }
-  .url-input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-glow), 0 4px 12px rgba(0, 0, 0, 0.25) inset;
-  }
-  .url-input::placeholder {
+  .hero-search-input::placeholder {
     color: var(--text-dim);
   }
 
-  .btn-paste-clipboard {
-    position: absolute;
-    right: 8px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #cbd5e1;
+  .btn-clipboard-paste {
+    background: var(--card-subtle-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-secondary);
+    padding: 7px 12px;
+    border-radius: var(--radius-md);
     font-size: 12px;
     font-weight: 600;
-    padding: 7px 12px;
-    border-radius: var(--radius-sm);
     cursor: pointer;
-    display: flex;
+    margin-right: 8px;
+    transition: all 0.2s;
+    display: inline-flex;
     align-items: center;
     gap: 5px;
+  }
+  .btn-clipboard-paste:hover {
+    background: var(--input-border);
+    color: var(--text-primary);
+  }
+
+  .btn-analyze-primary {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .btn-analyze-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+    filter: brightness(1.05);
+  }
+
+  /* Platform Badges Row */
+  .platform-tags-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: -6px;
+    margin-bottom: 2px;
+  }
+  .platform-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-pill);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    user-select: none;
+  }
+  .platform-chip-btn {
+    cursor: pointer;
     transition: all 0.2s;
   }
-  .btn-paste-clipboard:hover {
-    background: rgba(255, 255, 255, 0.16);
-    color: white;
-    transform: translateY(-1px);
+  .platform-chip-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--active-blue-bg);
   }
 
-  /* Dropzone for Uploads */
-  .dropzone {
-    border: 2px dashed var(--border);
-    border-radius: var(--radius-lg);
-    padding: 34px 20px;
-    text-align: center;
-    background: rgba(14, 18, 26, 0.5);
-    cursor: pointer;
-    transition: all 0.25s ease;
-    margin-bottom: 16px;
+  /* Mode Switcher Pills */
+  .mode-switcher-row {
+    display: flex;
+    justify-content: center;
+    margin: 8px 0;
   }
-  .dropzone:hover, .dropzone.dragover {
-    border-color: var(--accent);
-    background: var(--accent-glow);
-    transform: translateY(-1px);
+  .mode-pill-container {
+    display: inline-flex;
+    background: var(--card-bg);
+    padding: 5px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--card-shadow);
+    gap: 4px;
   }
-  .dropzone-icon {
-    font-size: 32px;
-    margin-bottom: 8px;
-  }
-  .dropzone-title {
-    font-size: 15px;
+  .mode-tab-btn {
+    padding: 8px 24px;
+    font-size: 13.5px;
     font-weight: 700;
-    margin-bottom: 4px;
-    color: #f1f5f9;
-  }
-  .dropzone-sub {
-    font-size: 13px;
     color: var(--text-muted);
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+  }
+  .mode-tab-btn:hover {
+    color: var(--text-primary);
+  }
+  .mode-tab-btn.active {
+    background: var(--primary-gradient);
+    color: white;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
   }
 
+  /* File Upload Dropzone (Collapsible) */
+  .dropzone-container {
+    display: none;
+    border: 2px dashed var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 28px 20px;
+    text-align: center;
+    background: var(--card-subtle-bg);
+    cursor: pointer;
+    transition: all 0.25s;
+    margin-bottom: 6px;
+  }
+  .dropzone-container:hover, .dropzone-container.dragover {
+    border-color: var(--primary);
+    background: var(--active-blue-bg);
+  }
   .upload-success-card {
     display: none;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 18px;
+    padding: 12px 18px;
     background: var(--success-bg);
     border: 1px solid var(--success-border);
     border-radius: var(--radius-md);
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     flex-wrap: wrap;
     gap: 10px;
   }
   .upload-success-card.active { display: flex; }
 
-  /* Live Video Stage / Metadata Banner */
+  /* Live Metadata Card */
   .video-info-card {
     display: none;
-    background: linear-gradient(135deg, rgba(20, 26, 38, 0.9), rgba(14, 18, 26, 0.9));
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     border-radius: var(--radius-lg);
     padding: 16px 20px;
-    margin-bottom: 20px;
     align-items: center;
     gap: 16px;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--card-shadow);
+    margin-bottom: 6px;
     animation: fadeIn 0.3s ease;
   }
   .video-info-card.active { display: flex; }
-
   .video-thumb {
     width: 140px;
     height: 84px;
@@ -411,29 +524,17 @@
     border: 1px solid var(--card-border);
     flex-shrink: 0;
   }
-
-  .video-meta-body {
-    flex: 1;
-    min-width: 0;
-  }
-
+  .video-meta-body { flex: 1; min-width: 0; }
   .video-title {
     font-size: 15px;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 8px;
-    letter-spacing: -0.01em;
   }
-
-  .video-badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
+  .video-badges { display: flex; flex-wrap: wrap; gap: 6px; }
   .badge {
     display: inline-flex;
     align-items: center;
@@ -445,35 +546,35 @@
     font-family: 'JetBrains Mono', monospace;
   }
   .badge-duration {
-    background: rgba(255, 255, 255, 0.08);
-    color: #e2e8f0;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--card-subtle-bg);
+    color: var(--text-secondary);
+    border: 1px solid var(--card-border);
   }
   .badge-size {
     background: var(--cyan-bg);
-    color: #22d3ee;
+    color: var(--cyan);
     border: 1px solid rgba(6, 182, 212, 0.3);
   }
   .badge-chapters {
     background: var(--purple-bg);
-    color: #c084fc;
-    border: 1px solid rgba(192, 132, 252, 0.3);
+    color: var(--purple);
+    border: 1px solid rgba(139, 92, 246, 0.3);
   }
   .badge-viral {
     background: var(--amber-bg);
-    color: #fbbf24;
-    border: 1px solid rgba(251, 191, 36, 0.3);
+    color: var(--amber);
+    border: 1px solid rgba(245, 158, 11, 0.3);
   }
 
   /* Full Video Quick Download Banner */
   .full-download-card {
     display: none;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(6, 95, 70, 0.15));
-    border: 1px solid rgba(16, 185, 129, 0.35);
+    background: var(--success-bg);
+    border: 1px solid var(--success-border);
     border-radius: var(--radius-lg);
-    padding: 16px 20px;
-    margin-bottom: 24px;
-    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15);
+    padding: 14px 20px;
+    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.1);
+    margin-bottom: 8px;
     animation: fadeIn 0.3s ease;
   }
   .full-download-header {
@@ -484,9 +585,9 @@
     flex-wrap: wrap;
   }
   .full-download-title {
-    font-size: 14.5px;
+    font-size: 14px;
     font-weight: 700;
-    color: #34d399;
+    color: var(--success);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -498,9 +599,9 @@
     flex-wrap: wrap;
   }
   .full-download-select {
-    background: #064e3b;
-    border: 1px solid #059669;
-    color: #ecfdf5;
+    background: var(--card-bg);
+    border: 1px solid var(--success-border);
+    color: var(--text-primary);
     padding: 7px 12px;
     border-radius: var(--radius-md);
     font-size: 13px;
@@ -517,7 +618,7 @@
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
     transition: all 0.2s;
     display: inline-flex;
     align-items: center;
@@ -525,17 +626,44 @@
   }
   .btn-quick-download:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.5);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.45);
   }
 
-  /* Step 2: Strategy Cards Grid */
+  /* SECTION 1: Clipping Strategy Card */
+  .section-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-xl);
+    padding: 24px 28px;
+    box-shadow: var(--card-shadow);
+  }
+  .section-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+  }
+  .section-card-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-card-subtitle {
+    font-size: 12.5px;
+    color: var(--text-muted);
+  }
+
+  /* 4 Strategy Cards Grid */
   .strategy-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 14px;
   }
-  @media (max-width: 860px) {
+  @media (max-width: 820px) {
     .strategy-grid { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 480px) {
@@ -543,101 +671,104 @@
   }
 
   .strategy-card {
-    background: rgba(14, 18, 26, 0.6);
-    border: 1px solid var(--border);
+    background: var(--card-subtle-bg);
+    border: 1.5px solid var(--card-border);
     border-radius: var(--radius-lg);
-    padding: 16px 14px;
+    padding: 18px 16px;
+    text-align: center;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     user-select: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .strategy-card:hover {
     border-color: var(--card-hover-border);
     transform: translateY(-2px);
-    background: rgba(20, 26, 38, 0.8);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
   }
   .strategy-card.active {
-    border-color: var(--accent);
-    background: rgba(255, 56, 92, 0.08);
-    box-shadow: 0 0 0 1px var(--accent), 0 8px 20px var(--accent-glow);
+    background: var(--active-blue-bg);
+    border-color: var(--active-blue-border);
+    box-shadow: 0 0 0 1px var(--active-blue-border), 0 8px 20px rgba(59, 130, 246, 0.15);
   }
 
-  .strat-icon {
-    font-size: 24px;
+  .strat-check-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+  }
+  .strategy-card.active .strat-check-badge { display: flex; }
+
+  .strat-card-icon {
+    font-size: 26px;
     margin-bottom: 8px;
     display: inline-block;
   }
-  .strat-name {
-    font-size: 13.5px;
+  .strat-card-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14.5px;
     font-weight: 700;
-    color: #f1f5f9;
+    color: var(--text-primary);
     margin-bottom: 3px;
   }
-  .strat-desc {
+  .strat-card-desc {
     font-size: 11.5px;
     color: var(--text-muted);
     line-height: 1.35;
   }
-  .strat-active-pill {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 8px var(--accent);
-    display: none;
-  }
-  .strategy-card.active .strat-active-pill { display: block; }
 
   /* Contextual Strategy Panels */
   .strategy-panel {
     display: none;
-    background: rgba(14, 18, 26, 0.6);
-    border: 1px solid var(--border);
+    background: var(--card-subtle-bg);
+    border: 1px solid var(--card-border);
     border-radius: var(--radius-lg);
-    padding: 18px 20px;
-    margin-bottom: 22px;
+    padding: 16px 20px;
+    margin-top: 14px;
     animation: fadeIn 0.25s ease;
   }
   .strategy-panel.active { display: block; }
 
-  /* Duration Presets */
   .duration-presets {
     display: flex;
     gap: 6px;
     flex-wrap: wrap;
-    margin-top: 10px;
+    margin-top: 8px;
   }
   .preset-btn {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     color: var(--text-muted);
-    padding: 5px 11px;
-    border-radius: 6px;
+    padding: 5px 12px;
+    border-radius: var(--radius-pill);
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
   }
   .preset-btn:hover {
-    color: white;
-    background: rgba(255, 255, 255, 0.12);
+    color: var(--text-primary);
+    border-color: var(--primary);
   }
   .preset-btn.active {
-    background: var(--accent);
+    background: var(--primary);
     color: white;
-    border-color: var(--accent);
+    border-color: var(--primary);
   }
 
-  /* Range Trimmer */
-  .trimmer-row {
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-  }
   .trim-inputs {
     display: none;
     grid-template-columns: 1fr 1fr;
@@ -645,7 +776,6 @@
     margin-top: 10px;
   }
 
-  /* Chapter & Viral Lists */
   .chapter-list, .viral-list {
     max-height: 180px;
     overflow-y: auto;
@@ -653,289 +783,269 @@
     flex-direction: column;
     gap: 6px;
     margin-top: 8px;
-    padding-right: 4px;
   }
   .chapter-item, .viral-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     border-radius: 8px;
-    font-size: 12px;
+    font-size: 12.5px;
   }
 
-  /* Step 3: Creator Controls Grid */
-  .creator-settings-grid {
+  /* SECTION 2: Settings Card */
+  .settings-controls-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 14px;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
-  @media (max-width: 640px) {
-    .creator-settings-grid { grid-template-columns: 1fr; }
-  }
-
-  .setting-box {
-    background: rgba(14, 18, 26, 0.5);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 16px 18px;
+  @media (max-width: 768px) {
+    .settings-controls-grid { grid-template-columns: 1fr; }
   }
 
-  .setting-label {
-    font-size: 13px;
+  .setting-control-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .setting-control-label {
+    font-size: 12.5px;
     font-weight: 700;
-    color: #f1f5f9;
-    margin-bottom: 10px;
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     gap: 6px;
   }
 
-  /* Custom Aspect Ratio Chips */
-  .aspect-chips {
+  .custom-select-box, .custom-input-box {
+    display: flex;
+    align-items: center;
+    background: var(--card-subtle-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+  .custom-select-box:focus-within, .custom-input-box:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+  .control-icon {
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+  .clean-input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-family: inherit;
+  }
+  .clean-select {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  /* 3 Toggle Cards Row */
+  .toggle-cards-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
+    gap: 12px;
+    margin-bottom: 16px;
   }
-  .aspect-chip {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+  @media (max-width: 820px) {
+    .toggle-cards-grid { grid-template-columns: 1fr; }
+  }
+
+  .toggle-feature-card {
+    background: var(--card-subtle-bg);
+    border: 1.5px solid var(--card-border);
     border-radius: var(--radius-md);
-    padding: 10px 8px;
-    text-align: center;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     cursor: pointer;
     transition: all 0.2s;
     user-select: none;
   }
-  .aspect-chip:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.08);
+  .toggle-feature-card:hover {
+    border-color: var(--card-hover-border);
   }
-  .aspect-chip.active {
-    border-color: var(--accent);
-    background: var(--accent-glow);
-    box-shadow: 0 0 12px var(--accent-glow);
+  .toggle-feature-card.checked {
+    border-color: var(--active-blue-border);
+    background: var(--active-blue-bg);
   }
-  .aspect-chip-icon {
-    font-size: 16px;
-    margin-bottom: 4px;
-  }
-  .aspect-chip-name {
-    font-size: 11.5px;
-    font-weight: 700;
-    color: #f8fafc;
-  }
-  .aspect-chip-tag {
-    font-size: 9.5px;
-    color: var(--accent);
-    font-weight: 600;
-    margin-top: 2px;
-  }
-
-  /* Custom iOS-Style Toggle Switch */
-  .switch-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 9px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  }
-  .switch-row:last-child { border-bottom: none; }
-
-  .switch-text-group {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .switch-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: #f1f5f9;
-  }
-  .switch-sub {
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-
-  .toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 44px;
-    height: 24px;
+  .toggle-feature-card input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    accent-color: var(--primary);
+    cursor: pointer;
     flex-shrink: 0;
   }
-  .toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+  .toggle-card-icon {
+    font-size: 18px;
+    flex-shrink: 0;
   }
-  .toggle-slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #1f2736;
-    transition: .3s;
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  .toggle-slider:before {
-    position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 2px;
-    bottom: 2px;
-    background-color: white;
-    transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 50%;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-  }
-  .toggle-switch input:checked + .toggle-slider {
-    background-color: var(--accent);
-    border-color: var(--accent);
-    box-shadow: 0 0 10px var(--accent-glow);
-  }
-  .toggle-switch input:checked + .toggle-slider:before {
-    transform: translateX(20px);
-  }
-
-  /* Form Inputs (Generic) */
-  .form-input {
-    width: 100%;
-    padding: 10px 14px;
-    background: var(--input-bg);
-    border: 1px solid var(--input-border);
-    border-radius: var(--radius-md);
-    color: var(--text);
-    font-size: 13.5px;
-    font-family: inherit;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .form-input:focus {
-    border-color: var(--accent);
-  }
-  select.form-input {
-    cursor: pointer;
-  }
-
-  /* Primary Action Hero Button */
-  .btn-hero {
-    width: 100%;
-    padding: 18px 24px;
-    background: var(--accent-gradient);
-    border: none;
-    border-radius: var(--radius-lg);
-    color: white;
-    font-size: 16px;
-    font-weight: 800;
-    font-family: 'Outfit', sans-serif;
-    letter-spacing: 0.02em;
-    cursor: pointer;
-    box-shadow: 0 8px 24px var(--accent-glow);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  .toggle-card-text {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
   }
-  .btn-hero:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(255, 56, 92, 0.5);
-    filter: brightness(1.06);
-  }
-  .btn-hero:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  /* Live Progress Telemetry Box */
-  .status-box {
-    display: none;
-    background: rgba(14, 18, 26, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-lg);
-    padding: 20px;
-    margin-bottom: 24px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-    animation: fadeIn 0.3s ease;
-  }
-  .status-box.active { display: block; }
-
-  .status-header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-  .status-title-wrap {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .status-spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.15);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  
-  .status-pct {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--accent);
-  }
-  .progress-track {
-    height: 8px;
-    background: #171d29;
-    border-radius: 999px;
-    overflow: hidden;
-    position: relative;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--accent-gradient);
-    width: 0%;
-    border-radius: 999px;
-    transition: width 0.3s ease;
-    box-shadow: 0 0 10px var(--accent-glow);
-  }
-  .status-detail-text {
-    margin-top: 10px;
+  .toggle-card-title {
     font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .toggle-card-sub {
+    font-size: 11px;
     color: var(--text-muted);
-    font-family: 'JetBrains Mono', monospace;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
+  /* Custom Clip Prefix Input Row */
+  .prefix-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  /* Hero Action Button */
+  .btn-hero-clip {
+    width: 100%;
+    padding: 16px 24px;
+    background: var(--hero-btn-gradient);
+    border: none;
+    border-radius: var(--radius-pill);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    margin-top: 4px;
+  }
+  .btn-hero-clip:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(37, 99, 235, 0.45);
+    background: var(--hero-btn-hover);
+  }
+  .btn-hero-clip:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .btn-hero-main-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-hero-sub-text {
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0.9;
+  }
+
+  /* Live Progress Telemetry Box */
+  .status-box {
+    display: none;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-xl);
+    padding: 20px 24px;
+    box-shadow: var(--card-shadow);
+    animation: fadeIn 0.3s ease;
+  }
+  .status-box.active { display: block; }
+  .status-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .status-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 14.5px;
+  }
+  .status-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(37, 99, 235, 0.2);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .status-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+  .progress-track {
+    height: 8px;
+    background: var(--card-subtle-bg);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--primary-gradient);
+    width: 0%;
+    border-radius: var(--radius-pill);
+    transition: width 0.3s ease;
+  }
+  .status-detail-text {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
   /* Error Alert */
   .error-alert {
     display: none;
-    margin-bottom: 20px;
     padding: 14px 18px;
-    background: rgba(239, 68, 68, 0.12);
-    border: 1px solid rgba(239, 68, 68, 0.35);
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
     border-radius: var(--radius-md);
-    color: #fca5a5;
+    color: #ef4444;
     font-size: 13.5px;
-    line-height: 1.5;
   }
 
   /* Output Cinema / Clips Section */
   .clips-section {
     display: none;
-    margin-top: 10px;
     animation: fadeIn 0.4s ease;
   }
   .clips-header-bar {
@@ -949,29 +1059,29 @@
   .clips-title-text {
     font-family: 'Outfit', sans-serif;
     font-size: 17px;
-    font-weight: 700;
-    color: #34d399;
+    font-weight: 800;
+    color: var(--success);
     display: flex;
     align-items: center;
     gap: 8px;
   }
   .btn-zip-all {
-    background: linear-gradient(135deg, var(--success), var(--success-hover));
+    background: linear-gradient(135deg, var(--success), #059669);
     color: white;
     text-decoration: none;
-    padding: 9px 18px;
-    border-radius: var(--radius-md);
+    padding: 8px 18px;
+    border-radius: var(--radius-pill);
     font-size: 13px;
     font-weight: 700;
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     transition: all 0.2s;
   }
   .btn-zip-all:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
   }
 
   /* Permanent Downloads Saved Banner */
@@ -979,11 +1089,11 @@
     display: none;
     justify-content: space-between;
     align-items: center;
-    background: rgba(16, 185, 129, 0.08);
-    border: 1px solid rgba(16, 185, 129, 0.3);
+    background: var(--success-bg);
+    border: 1px solid var(--success-border);
     border-radius: var(--radius-lg);
     padding: 14px 18px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     gap: 12px;
     flex-wrap: wrap;
   }
@@ -992,7 +1102,7 @@
     color: #fff;
     border: none;
     padding: 8px 16px;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-pill);
     font-size: 12.5px;
     font-weight: 700;
     cursor: pointer;
@@ -1004,10 +1114,9 @@
   }
   .btn-open-explorer:hover {
     transform: translateY(-1px);
-    box-shadow: 0 5px 14px rgba(16, 185, 129, 0.45);
   }
 
-  /* Clip Items */
+  /* Clips List */
   .clips-list-grid {
     display: flex;
     flex-direction: column;
@@ -1018,15 +1127,15 @@
     justify-content: space-between;
     align-items: center;
     padding: 12px 18px;
-    background: rgba(14, 18, 26, 0.85);
-    border: 1px solid var(--border);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     border-radius: var(--radius-md);
     font-size: 13px;
     transition: all 0.2s;
   }
   .clip-row:hover {
-    border-color: rgba(255, 255, 255, 0.16);
-    background: rgba(22, 28, 40, 0.9);
+    border-color: var(--card-hover-border);
+    background: var(--card-subtle-bg);
   }
   .clip-info {
     display: flex;
@@ -1036,7 +1145,7 @@
   }
   .clip-info span {
     font-weight: 600;
-    color: #f1f5f9;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1056,37 +1165,38 @@
     gap: 8px;
   }
   .btn-preview {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: #f1f5f9;
+    background: var(--card-subtle-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-primary);
     padding: 6px 14px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-pill);
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
   }
   .btn-preview:hover {
-    background: rgba(255, 255, 255, 0.16);
+    border-color: var(--primary);
+    color: var(--primary);
   }
   .btn-download {
-    background: var(--accent);
+    background: var(--primary);
     color: white;
     text-decoration: none;
     padding: 6px 14px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-pill);
     font-size: 12px;
     font-weight: 600;
     transition: all 0.2s;
   }
   .btn-download:hover {
-    background: var(--accent-hover);
+    background: var(--primary-hover);
   }
 
   /* History Drawer */
   .history-section {
-    margin-top: 24px;
-    border-top: 1px solid var(--border);
+    margin-top: 10px;
+    border-top: 1px solid var(--card-border);
     padding-top: 16px;
   }
   .history-header-toggle {
@@ -1095,7 +1205,7 @@
     align-items: center;
     cursor: pointer;
     user-select: none;
-    padding: 8px 4px;
+    padding: 4px;
   }
   .history-title-group {
     display: flex;
@@ -1103,7 +1213,7 @@
     gap: 8px;
     font-size: 13.5px;
     font-weight: 700;
-    color: #cbd5e1;
+    color: var(--text-secondary);
   }
   .history-list {
     margin-top: 12px;
@@ -1113,8 +1223,8 @@
   }
   .history-list.open { display: flex; }
   .history-item {
-    background: rgba(14, 18, 26, 0.7);
-    border: 1px solid var(--border);
+    background: var(--card-subtle-bg);
+    border: 1px solid var(--card-border);
     border-radius: var(--radius-md);
     padding: 12px 16px;
     display: flex;
@@ -1125,7 +1235,7 @@
   .history-id {
     font-family: 'JetBrains Mono', monospace;
     font-weight: 700;
-    color: #f1f5f9;
+    color: var(--text-primary);
   }
   .history-meta {
     color: var(--text-muted);
@@ -1138,9 +1248,9 @@
     gap: 6px;
   }
   .btn-action-small {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #cbd5e1;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-secondary);
     padding: 5px 11px;
     border-radius: 6px;
     font-size: 11.5px;
@@ -1150,23 +1260,22 @@
     transition: all 0.2s;
   }
   .btn-action-small:hover {
-    background: rgba(255, 255, 255, 0.14);
-    color: white;
+    color: var(--text-primary);
+    border-color: var(--primary);
   }
   .btn-delete-small {
-    color: #fca5a5;
-    border-color: rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    border-color: rgba(239, 68, 68, 0.2);
   }
   .btn-delete-small:hover {
-    background: rgba(239, 68, 68, 0.2);
-    color: #ff8585;
+    background: rgba(239, 68, 68, 0.1);
   }
 
   /* Modal Preview */
   .modal-backdrop {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.82);
     backdrop-filter: blur(8px);
     display: none;
     align-items: center;
@@ -1176,20 +1285,20 @@
   }
   .modal-backdrop.open { display: flex; }
   .modal-box {
-    background: #11151f;
+    background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: var(--radius-xl);
     max-width: 680px;
     width: 100%;
     overflow: hidden;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.4);
   }
   .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--card-border);
     font-size: 14px;
     font-weight: 700;
   }
@@ -1199,46 +1308,34 @@
     color: var(--text-muted);
     font-size: 24px;
     cursor: pointer;
-    padding: 2px 8px;
-    line-height: 1;
   }
-  .modal-close:hover { color: #fff; }
   .modal-body {
     padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #07090e;
+    background: #000;
   }
   .modal-video {
     max-width: 100%;
     max-height: 520px;
     border-radius: var(--radius-md);
-    background: #000;
-    display: block;
   }
   .modal-audio { width: 100%; padding: 20px; display: none; }
 
-  /* Studio Footer */
+  /* Footer */
   .studio-footer {
-    margin-top: 24px;
-    padding-top: 18px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    gap: 12px;
+    padding: 14px 4px;
+    border-top: 1px solid var(--card-border);
     font-size: 12px;
     color: var(--text-dim);
     flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
   }
-  .footer-link {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.2s;
-  }
-  .footer-link:hover { color: var(--amber); }
 
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(6px); }
@@ -1248,215 +1345,209 @@
 </head>
 <body>
 
+<!-- Background Artwork (Mountain Silhouette & Handwriting Quotes) -->
+<div class="bg-artwork-overlay">
+  <div class="artistic-quote-1">Ideas<br>Travel<br>Further</div>
+  <div class="artistic-quote-2">Same<br>Content.<br>More<br>Possibilities.</div>
+  <div class="bg-mountain-silhouette"></div>
+</div>
+
 <div class="studio-container">
 
-  <!-- Top Navigation Bar -->
-  <header class="navbar">
+  <!-- Top Navbar -->
+  <header class="top-navbar">
     <a href="#" class="nav-brand">
-      <div class="nav-logo">
+      <div class="nav-brand-icon">
         <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
       </div>
-      <div class="nav-title-group">
+      <div class="nav-brand-text">
         <h1>Universal Video Clipper</h1>
-        <span class="nav-tagline">Professional Creator Studio</span>
+        <span>Create More. From Anywhere.</span>
       </div>
     </a>
 
-    <div class="nav-actions">
-      <div class="nav-badge-online">
-        <span class="status-dot"></span>
-        <span>1,750+ Sites Supported</span>
-      </div>
-      <a href="https://github.com/Abhijeetm96/clipper" target="_blank" rel="noopener noreferrer" class="btn-github-star" title="Star this repository on GitHub">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-        <span>Star on GitHub</span>
-        <span class="star-icon">⭐</span>
+    <div class="nav-utilities">
+      <a href="https://github.com/Abhijeetm96/clipper" target="_blank" rel="noopener noreferrer" class="btn-star-repo" title="Star this repository on GitHub">
+        <span>⭐ Star</span>
       </a>
+      <button type="button" class="btn-theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark / Light Mode">
+        <span id="themeIcon">☀️</span>
+      </button>
+      <div class="user-avatar-pill" title="Abhijeet Kumar Mohanty">AM</div>
     </div>
   </header>
 
-  <!-- Main Studio Card -->
-  <main class="studio-card">
+  <!-- Hero Headline -->
+  <div class="hero-header">
+    <div class="hero-kicker">ONE LINK. ENDLESS POSSIBILITIES.</div>
+    <h2 class="hero-title">Universal <span class="gradient-text">Video Clipper</span></h2>
+    <p class="hero-tagline">Download, clip & extract audio from any web video (YouTube, TikTok, Twitter/X, Instagram, Vimeo, Reddit & more).</p>
+  </div>
 
-    <!-- STEP 1: Media Stage -->
-    <div class="step-label">
-      <span class="step-num">1</span>
-      <span>Select Source & Input Media</span>
-    </div>
+  <!-- Hero URL Search Bar -->
+  <div class="hero-search-box">
+    <svg class="hero-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+    <input type="text" id="url" class="hero-search-input" placeholder="Paste any video link here..." oninput="handleUrlInput()" onkeydown="if(event.key==='Enter') startJob()">
+    <button type="button" class="btn-clipboard-paste" onclick="pasteFromClipboard()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      <span>Paste</span>
+    </button>
+    <button type="button" class="btn-analyze-primary" onclick="triggerAnalyze()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <span>Analyze</span>
+    </button>
+  </div>
 
-    <div class="control-strip">
-      <!-- Source Switcher (Web URL vs Local Upload) -->
-      <div class="pill-group">
-        <div class="pill-tab active" id="sourceTabYt" onclick="setSource('yt')">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8" fill="currentColor"></polygon></svg>
-          <span>Web Video Link</span>
-        </div>
-        <div class="pill-tab" id="sourceTabUpload" onclick="setSource('upload')">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-          <span>Upload File</span>
-        </div>
+  <!-- Platform Pills Row -->
+  <div class="platform-tags-row">
+    <span class="platform-chip">▶️ YouTube</span>
+    <span class="platform-chip">🎵 TikTok</span>
+    <span class="platform-chip">𝕏 X (Twitter)</span>
+    <span class="platform-chip">📸 Instagram</span>
+    <span class="platform-chip">📘 Facebook</span>
+    <span class="platform-chip">🤖 Reddit</span>
+    <span class="platform-chip">🎬 Vimeo</span>
+    <span class="platform-chip platform-chip-btn" onclick="toggleUploadDropzone()">📁 Upload File / + Many more</span>
+  </div>
+
+  <!-- Mode Switcher (Video Clips vs Audio Only) -->
+  <div class="mode-switcher-row">
+    <div class="mode-pill-container">
+      <div class="mode-tab-btn active" id="tabVideo" onclick="setMode('video')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
+        <span>Video Clips (MP4)</span>
       </div>
-
-      <!-- Mode Switcher (Video Clips vs Audio Extraction) -->
-      <div class="pill-group">
-        <div class="pill-tab active accent" id="tabVideo" onclick="setMode('video')">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
-          <span>MP4 Video</span>
-        </div>
-        <div class="pill-tab" id="tabAudio" onclick="setMode('audio')">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-          <span>MP3 Audio</span>
-        </div>
+      <div class="mode-tab-btn" id="tabAudio" onclick="setMode('audio')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+        <span>Audio Only (MP3)</span>
       </div>
     </div>
+  </div>
 
-    <!-- Web Video Input -->
-    <div id="sectionYtInput">
-      <div class="url-input-wrapper">
-        <svg class="url-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-        <input type="text" id="url" class="url-input" placeholder="Paste link from YouTube, TikTok, Twitter/X, Instagram, Vimeo, Reddit, or direct MP4..." oninput="handleUrlInput()">
-        <button type="button" class="btn-paste-clipboard" onclick="pasteFromClipboard()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          <span>Paste</span>
+  <!-- Local Upload Dropzone -->
+  <div class="dropzone-container" id="dropzone" onclick="document.getElementById('fileInput').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+    <div style="font-size: 28px; margin-bottom: 6px;">📁</div>
+    <div style="font-size: 14.5px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px;">Click to select or drag video file here</div>
+    <div style="font-size: 12.5px; color: var(--text-muted);">Supports MP4, MOV, MKV, AVI, and WEBM formats</div>
+    <input type="file" id="fileInput" accept="video/*" style="display: none;" onchange="handleFileSelected(this.files[0])">
+  </div>
+
+  <div class="upload-success-card" id="uploadSuccessCard">
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <span id="uploadedFileName" style="font-weight: 700; font-size: 13.5px; color: var(--text-primary);">video.mp4</span>
+      <span class="badge badge-duration" id="uploadedDuration">0:00</span>
+      <span class="badge badge-size" id="uploadedSize">0 MB</span>
+    </div>
+    <button class="btn-action-small btn-delete-small" onclick="clearUpload()">Remove</button>
+  </div>
+
+  <!-- Live Video Metadata Card -->
+  <div class="video-info-card" id="videoInfoCard">
+    <img id="videoThumb" class="video-thumb" src="" alt="Thumbnail">
+    <div class="video-meta-body">
+      <div id="videoTitle" class="video-title">Loading...</div>
+      <div class="video-badges" id="videoBadges">
+        <span class="badge badge-duration" id="badgeDuration">0:00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full Video Quick Download Banner -->
+  <div class="full-download-card" id="fullDownloadCard">
+    <div class="full-download-header">
+      <div>
+        <div class="full-download-title">
+          <span>⚡ Download Full Video (No Cuts / Original Form)</span>
+        </div>
+        <div id="fullDownloadBadges" style="margin-top: 4px; display: flex; gap: 6px;"></div>
+      </div>
+      <div class="full-download-actions">
+        <select id="fullQuality" class="full-download-select">
+          <option value="best" selected>🌟 Best / 4K UHD Original Stream</option>
+          <option value="1080">📺 1080p Full HD</option>
+          <option value="720">⚡ 720p HD</option>
+          <option value="audio">🎵 Audio Only (MP3)</option>
+        </select>
+        <button type="button" id="btnFullDownload" class="btn-quick-download" onclick="startFullDownload()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span id="fullDownloadBtnText">Download Video</span>
         </button>
       </div>
     </div>
+  </div>
 
-    <!-- Local File Upload Dropzone -->
-    <div id="sectionUploadInput" style="display: none;">
-      <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
-        <div class="dropzone-icon">📁</div>
-        <div class="dropzone-title">Click to upload or drag video file here</div>
-        <div class="dropzone-sub">Supports MP4, MOV, MKV, AVI, and WEBM formats</div>
-        <input type="file" id="fileInput" accept="video/*" style="display: none;" onchange="handleFileSelected(this.files[0])">
+  <!-- SECTION 1: Clipping Strategy Deck -->
+  <section class="section-card">
+    <div class="section-card-header">
+      <div class="section-card-title">
+        <span style="color: var(--purple); font-size: 18px;">✨</span>
+        <span>Clipping Strategy</span>
       </div>
-
-      <div class="upload-success-card" id="uploadSuccessCard">
-        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          <span id="uploadedFileName" style="font-weight: 700; font-size: 13.5px; color: #f8fafc;">video.mp4</span>
-          <span class="badge badge-duration" id="uploadedDuration">0:00</span>
-          <span class="badge badge-size" id="uploadedSize">0 MB</span>
-        </div>
-        <button class="btn-action-small btn-delete-small" onclick="clearUpload()">Remove</button>
-      </div>
-    </div>
-
-    <!-- Live Video Metadata Card -->
-    <div class="video-info-card" id="videoInfoCard">
-      <img id="videoThumb" class="video-thumb" src="" alt="Thumbnail">
-      <div class="video-meta-body">
-        <div id="videoTitle" class="video-title">Loading...</div>
-        <div class="video-badges" id="videoBadges">
-          <span class="badge badge-duration" id="badgeDuration">0:00</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Full Video Quick Download Banner -->
-    <div class="full-download-card" id="fullDownloadCard">
-      <div class="full-download-header">
-        <div>
-          <div class="full-download-title">
-            <span>⚡ Download Full Video (No Cuts / Original Form)</span>
-          </div>
-          <div id="fullDownloadBadges" style="margin-top: 6px; display: flex; gap: 6px;"></div>
-        </div>
-        <div class="full-download-actions">
-          <select id="fullQuality" class="full-download-select">
-            <option value="best" selected>🌟 Best / 4K UHD Original Stream</option>
-            <option value="1080">📺 1080p Full HD</option>
-            <option value="720">⚡ 720p HD</option>
-            <option value="audio">🎵 Audio Only (MP3)</option>
-          </select>
-          <button type="button" id="btnFullDownload" class="btn-quick-download" onclick="startFullDownload()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            <span id="fullDownloadBtnText">Download Video</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP 2: Strategy Deck -->
-    <div class="step-label" style="margin-top: 10px;">
-      <span class="step-num">2</span>
-      <span>Choose Clipping Strategy</span>
+      <div class="section-card-subtitle">Choose how you want to create your clips</div>
     </div>
 
     <div class="strategy-grid">
-      <!-- Sequential -->
+      <!-- 1. Sequential Split -->
       <div class="strategy-card active" id="stratCardSequential" onclick="setStrategy('sequential')">
-        <span class="strat-active-pill"></span>
-        <div class="strat-icon">⏱️</div>
-        <div class="strat-name">Sequential Split</div>
-        <div class="strat-desc">Cut into exact duration clips (e.g. 30s or 60s)</div>
+        <span class="strat-check-badge">✓</span>
+        <div class="strat-card-icon" style="color: var(--primary);">⛓️</div>
+        <div class="strat-card-title">Sequential Split</div>
+        <div class="strat-card-desc">Cut every X seconds</div>
       </div>
 
-      <!-- Chapters -->
+      <!-- 2. By Chapters -->
       <div class="strategy-card" id="stratCardChapters" onclick="setStrategy('chapters')">
-        <span class="strat-active-pill"></span>
-        <div class="strat-icon">📑</div>
-        <div class="strat-name">By Chapters</div>
-        <div class="strat-desc" id="stratDescChapters">Auto-splits by chapter titles</div>
+        <span class="strat-check-badge">✓</span>
+        <div class="strat-card-icon" style="color: var(--purple);">📑</div>
+        <div class="strat-card-title">By Chapters</div>
+        <div class="strat-card-desc" id="stratDescChapters">Auto-detect chapters</div>
       </div>
 
-      <!-- Viral Peaks -->
+      <!-- 3. Viral Heatmap -->
       <div class="strategy-card" id="stratCardViral" onclick="setStrategy('viral')">
-        <span class="strat-active-pill"></span>
-        <div class="strat-icon">🔥</div>
-        <div class="strat-name">Viral Peaks</div>
-        <div class="strat-desc" id="stratDescViral">Top audience replay spikes</div>
+        <span class="strat-check-badge">✓</span>
+        <div class="strat-card-icon" style="color: #ef4444;">🔥</div>
+        <div class="strat-card-title">Viral Heatmap</div>
+        <div class="strat-card-desc" id="stratDescViral">Top replay peaks</div>
       </div>
 
-      <!-- Full Video -->
+      <!-- 4. Full Video -->
       <div class="strategy-card" id="stratCardFull" onclick="setStrategy('full')">
-        <span class="strat-active-pill"></span>
-        <div class="strat-icon">📦</div>
-        <div class="strat-name">Full Video</div>
-        <div class="strat-desc">Complete uncut video in 4K UHD</div>
+        <span class="strat-check-badge">✓</span>
+        <div class="strat-card-icon" style="color: var(--amber);">📦</div>
+        <div class="strat-card-title">Full Video</div>
+        <div class="strat-card-desc">Original / 4K (No Cut)</div>
       </div>
     </div>
 
-    <!-- Contextual Strategy Options Panels -->
+    <!-- Contextual Strategy Panels -->
     <!-- Sequential Panel -->
     <div class="strategy-panel active" id="panelSequential">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <label for="length" style="font-size: 13.5px; font-weight: 700;">Clip Duration (seconds)</label>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <input type="number" id="length" value="60" min="5" max="600" class="form-input" style="width: 85px; text-align: center; font-weight: 700;">
-          <span style="font-size: 13px; color: var(--text-muted);">seconds</span>
+        <span style="font-size: 13px; font-weight: 700;">Duration per clip</span>
+        <div class="duration-presets">
+          <button type="button" class="preset-btn" onclick="setPresetLength(15)">15s (Shorts)</button>
+          <button type="button" class="preset-btn" onclick="setPresetLength(30)">30s (Reels)</button>
+          <button type="button" class="preset-btn active" onclick="setPresetLength(60)">60s (TikTok)</button>
+          <button type="button" class="preset-btn" onclick="setPresetLength(90)">90s</button>
+          <button type="button" class="preset-btn" onclick="setPresetLength(180)">3 mins</button>
+          <button type="button" class="preset-btn" onclick="setPresetLength(300)">5 mins</button>
         </div>
-      </div>
-      <div class="duration-presets">
-        <span style="font-size: 11.5px; color: var(--text-dim); align-self: center; margin-right: 4px;">Quick Presets:</span>
-        <button type="button" class="preset-btn" onclick="setPresetLength(15)">15s (Shorts)</button>
-        <button type="button" class="preset-btn" onclick="setPresetLength(30)">30s (Reels)</button>
-        <button type="button" class="preset-btn active" onclick="setPresetLength(60)">60s (TikTok)</button>
-        <button type="button" class="preset-btn" onclick="setPresetLength(90)">90s</button>
-        <button type="button" class="preset-btn" onclick="setPresetLength(180)">3 mins</button>
-        <button type="button" class="preset-btn" onclick="setPresetLength(300)">5 mins</button>
       </div>
 
-      <!-- Range Trimmer -->
-      <div class="trimmer-row">
-        <div class="switch-row">
-          <div class="switch-text-group">
-            <span class="switch-title">Trim Specific Time Range</span>
-            <span class="switch-sub">Only cut clips between a specified Start and End timestamp</span>
+      <!-- Range Trimmer Row inside panel -->
+      <div class="trim-inputs" id="trimmerInputs">
+        <div>
+          <label for="startTime" style="font-size: 11.5px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 3px;">Start Time (MM:SS)</label>
+          <div class="custom-input-box">
+            <input type="text" id="startTime" class="clean-input" placeholder="00:00">
           </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="enableTrim" onchange="toggleTrim()">
-            <span class="toggle-slider"></span>
-          </label>
         </div>
-        <div class="trim-inputs" id="trimmerInputs">
-          <div>
-            <label for="startTime" style="font-size: 12px; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 4px;">Start Time (MM:SS or Seconds)</label>
-            <input type="text" id="startTime" class="form-input" placeholder="00:00">
-          </div>
-          <div>
-            <label for="endTime" style="font-size: 12px; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 4px;">End Time (MM:SS or Seconds)</label>
-            <input type="text" id="endTime" class="form-input" placeholder="02:30">
+        <div>
+          <label for="endTime" style="font-size: 11.5px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 3px;">End Time (MM:SS)</label>
+          <div class="custom-input-box">
+            <input type="text" id="endTime" class="clean-input" placeholder="02:30">
           </div>
         </div>
       </div>
@@ -1464,207 +1555,217 @@
 
     <!-- Chapters Panel -->
     <div class="strategy-panel" id="panelChapters">
-      <div style="font-size: 13.5px; font-weight: 700; margin-bottom: 6px;">Detected Video Chapters</div>
+      <div style="font-size: 13.5px; font-weight: 700; margin-bottom: 4px;">Detected Video Chapters</div>
       <div class="chapter-list" id="chapterListContainer">
-        <div style="color: var(--text-muted); font-size: 12.5px; padding: 6px;">Paste a video link above to automatically load chapters.</div>
+        <div style="color: var(--text-muted); font-size: 12.5px; padding: 4px;">Analyze a video link above to load chapters.</div>
       </div>
     </div>
 
     <!-- Viral Peaks Panel -->
     <div class="strategy-panel" id="panelViral">
-      <div style="font-size: 13.5px; font-weight: 700; margin-bottom: 6px;">Most Replayed Viral Peaks (YouTube Audience Retention)</div>
+      <div style="font-size: 13.5px; font-weight: 700; margin-bottom: 4px;">Audience Retention Replay Peaks (YouTube)</div>
       <div class="viral-list" id="viralListContainer">
-        <div style="color: var(--text-muted); font-size: 12.5px; padding: 6px;">Paste a YouTube video link to detect audience replay density spikes.</div>
+        <div style="color: var(--text-muted); font-size: 12.5px; padding: 4px;">Analyze a YouTube video link to detect viral peaks.</div>
       </div>
     </div>
 
     <!-- Full Video Panel -->
     <div class="strategy-panel" id="panelFull">
-      <label for="fullPanelQuality" style="font-size: 13.5px; font-weight: 700; display: block; margin-bottom: 6px;">Full Video Resolution</label>
-      <select id="fullPanelQuality" class="form-input">
-        <option value="best" selected>🌟 Best / 4K UHD Original Stream</option>
-        <option value="1080">📺 1080p Full HD</option>
-        <option value="720">⚡ 720p HD (Ultra Fast)</option>
-      </select>
+      <label for="fullPanelQuality" style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Output Stream Resolution</label>
+      <div class="custom-select-box">
+        <select id="fullPanelQuality" class="clean-select">
+          <option value="best" selected>🌟 Best / 4K UHD Original Stream</option>
+          <option value="1080">📺 1080p Full HD</option>
+          <option value="720">⚡ 720p HD</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: Settings Card -->
+  <section class="section-card">
+    <div class="section-card-header">
+      <div class="section-card-title">
+        <span style="color: var(--primary); font-size: 18px;">⚙️</span>
+        <span>Settings</span>
+      </div>
+      <div class="section-card-subtitle">Customize your output</div>
     </div>
 
-    <!-- STEP 3: Creator Enhancements & Settings -->
-    <div class="step-label" style="margin-top: 10px;">
-      <span class="step-num">3</span>
-      <span>Creator Enhancements & Format</span>
-    </div>
+    <!-- 3 Top Metric Controls Row -->
+    <div class="settings-controls-grid">
+      <!-- 1. Clip Length -->
+      <div class="setting-control-item" id="settingItemLength">
+        <label for="length" class="setting-control-label">
+          <svg class="control-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span>Clip Length (seconds)</span>
+        </label>
+        <div class="custom-input-box">
+          <span style="color: var(--text-dim);">⏱️</span>
+          <input type="number" id="length" value="60" min="5" max="600" class="clean-input" onchange="syncLengthWithPreset(this.value)">
+        </div>
+      </div>
 
-    <div class="creator-settings-grid">
-      <!-- Aspect Ratio Setting -->
-      <div class="setting-box" id="aspectGroup">
-        <div class="setting-label">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+      <!-- 2. Aspect Ratio -->
+      <div class="setting-control-item" id="aspectGroup">
+        <label for="aspect" class="setting-control-label">
+          <svg class="control-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
           <span>Aspect Ratio</span>
-        </div>
-        
-        <!-- Hidden input for backward compatibility -->
-        <select id="aspect" style="display: none;">
-          <option value="16:9">16:9 Landscape</option>
-          <option value="9:16-blur" selected>9:16 Vertical (Blur Pillars)</option>
-          <option value="9:16-crop">9:16 Vertical (Center Crop)</option>
-        </select>
-
-        <div class="aspect-chips">
-          <div class="aspect-chip" data-val="16:9" onclick="selectAspect('16:9')">
-            <div class="aspect-chip-icon">🖥️</div>
-            <div class="aspect-chip-name">16:9</div>
-            <div class="aspect-chip-tag" style="color: var(--text-dim);">Cinema</div>
-          </div>
-          <div class="aspect-chip active" data-val="9:16-blur" onclick="selectAspect('9:16-blur')">
-            <div class="aspect-chip-icon">📱</div>
-            <div class="aspect-chip-name">9:16 Blur</div>
-            <div class="aspect-chip-tag">Popular</div>
-          </div>
-          <div class="aspect-chip" data-val="9:16-crop" onclick="selectAspect('9:16-crop')">
-            <div class="aspect-chip-icon">✂️</div>
-            <div class="aspect-chip-name">9:16 Crop</div>
-            <div class="aspect-chip-tag" style="color: var(--text-dim);">Centered</div>
-          </div>
+        </label>
+        <div class="custom-select-box">
+          <span style="color: var(--text-dim);">📐</span>
+          <select id="aspect" class="clean-select">
+            <option value="16:9">16:9 Landscape (Original)</option>
+            <option value="9:16-blur" selected>9:16 Vertical (Shorts/Reels Blur)</option>
+            <option value="9:16-crop">9:16 Vertical (Center Crop)</option>
+          </select>
         </div>
       </div>
 
-      <!-- Creator Toggles -->
-      <div class="setting-box">
-        <div class="setting-label">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-          <span>Viral Retention Filters</span>
+      <!-- 3. Download Resolution -->
+      <div class="setting-control-item" id="qualityRow">
+        <label for="quality" class="setting-control-label">
+          <svg class="control-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          <span>Download Resolution</span>
+        </label>
+        <div class="custom-select-box">
+          <span style="color: var(--text-dim);">📺</span>
+          <select id="quality" class="clean-select">
+            <option value="1080" selected>1080p Full HD (Recommended)</option>
+            <option value="720">720p HD (Ultra Fast)</option>
+            <option value="best">Best / 4K UHD (Original)</option>
+          </select>
         </div>
-
-        <div class="switch-row" id="rowProgressBar">
-          <div class="switch-text-group">
-            <span class="switch-title">Dynamic Progress Bar</span>
-            <span class="switch-sub">Burns animated timeline at bottom of clip</span>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="addProgressBar" checked>
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="switch-row" id="rowSilenceSnap">
-          <div class="switch-text-group">
-            <span class="switch-title">Smart Silence Snapping</span>
-            <span class="switch-sub">Snaps cuts to natural speech pauses</span>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="snapSilence" checked>
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-
-      <!-- Custom Prefix Input -->
-      <div class="setting-box">
-        <div class="setting-label">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
-          <span>Filename Prefix (Optional)</span>
-        </div>
-        <input type="text" id="prefix" class="form-input" placeholder="e.g. podcast_part, reels_clip, tech_review">
-      </div>
-
-      <!-- Quality Dropdown (for Sequential / Chapter downloads) -->
-      <div class="setting-box" id="qualityRow">
-        <div class="setting-label">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-          <span>Source Download Quality</span>
-        </div>
-        <select id="quality" class="form-input">
-          <option value="1080" selected>1080p Full HD (Recommended)</option>
-          <option value="720">720p HD (Ultra Fast)</option>
-          <option value="best">Best / 4K UHD (Original)</option>
-        </select>
       </div>
     </div>
 
-    <!-- Error Alert -->
-    <div class="error-alert" id="error"></div>
-
-    <!-- Primary Action Hero Button -->
-    <button type="button" id="startBtn" class="btn-hero" onclick="startJob()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-      <span id="startBtnText">Start Clipping • 3.2s Turbo Engine</span>
-    </button>
-
-    <!-- Live Telemetry Status Box -->
-    <div class="status-box" id="statusBox">
-      <div class="status-header-row">
-        <div class="status-title-wrap">
-          <div class="status-spinner" id="statusSpinner"></div>
-          <span id="statusTitle" style="font-weight: 700; font-size: 14.5px;">Processing...</span>
+    <!-- 3 Toggle Feature Cards Row -->
+    <div class="toggle-cards-grid">
+      <!-- Card 1: Progress Bar -->
+      <label class="toggle-feature-card checked" id="cardToggleProgressBar" onclick="syncToggleCard('addProgressBar', 'cardToggleProgressBar')">
+        <input type="checkbox" id="addProgressBar" checked onclick="event.stopPropagation(); syncToggleCard('addProgressBar', 'cardToggleProgressBar')">
+        <span class="toggle-card-icon">📊</span>
+        <div class="toggle-card-text">
+          <span class="toggle-card-title">Burn dynamic progress bar</span>
+          <span class="toggle-card-sub">(Viral TikTok/Reels style)</span>
         </div>
-        <div class="status-pct" id="statusPct">0%</div>
-      </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-      <div class="status-detail-text" id="statusDetail">Initializing studio pipeline...</div>
+      </label>
+
+      <!-- Card 2: Silence Snapping -->
+      <label class="toggle-feature-card checked" id="cardToggleSilence" onclick="syncToggleCard('snapSilence', 'cardToggleSilence')">
+        <input type="checkbox" id="snapSilence" checked onclick="event.stopPropagation(); syncToggleCard('snapSilence', 'cardToggleSilence')">
+        <span class="toggle-card-icon">🔊</span>
+        <div class="toggle-card-text">
+          <span class="toggle-card-title">Smart Silence Snapping</span>
+          <span class="toggle-card-sub">(Avoids cutting mid-sentence)</span>
+        </div>
+      </label>
+
+      <!-- Card 3: Specific Range Only -->
+      <label class="toggle-feature-card" id="cardToggleRange" onclick="syncToggleCard('enableTrim', 'cardToggleRange'); toggleTrim();">
+        <input type="checkbox" id="enableTrim" onclick="event.stopPropagation(); syncToggleCard('enableTrim', 'cardToggleRange'); toggleTrim();">
+        <span class="toggle-card-icon">✂️</span>
+        <div class="toggle-card-text">
+          <span class="toggle-card-title">Clip specific time range only</span>
+          <span class="toggle-card-sub">(Optional)</span>
+        </div>
+      </label>
     </div>
 
-    <!-- Output Cinema / Completed Clips Reel -->
-    <div class="clips-section" id="clipsSection">
-      <div class="clips-header-bar">
-        <div class="clips-title-text" id="clipsHeader">Clips Ready</div>
-        <a class="btn-zip-all" id="zipAllBtn" href="#" download>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-          <span>Download All as ZIP</span>
-        </a>
+    <!-- Custom Clip Prefix Row -->
+    <div class="prefix-input-container">
+      <label for="prefix" class="setting-control-label">
+        <svg class="control-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+        <span>Custom Clip Filename Prefix (Optional)</span>
+      </label>
+      <div class="custom-input-box">
+        <span style="color: var(--text-dim);">🏷️</span>
+        <input type="text" id="prefix" class="clean-input" placeholder="e.g. podcast_part, reels_clip, gadget_review">
       </div>
-
-      <!-- Permanent System Downloads Banner -->
-      <div class="saved-banner" id="savedBanner">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <div style="font-size: 26px;">📁</div>
-          <div>
-            <div style="font-weight: 700; color: #34d399; font-size: 13.5px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-              <span>Delivered to System Downloads Folder</span>
-              <span style="font-size: 11px; font-weight: 600; background: rgba(16, 185, 129, 0.2); color: #6ee7b7; padding: 2px 8px; border-radius: 4px;">Permanent • Never Deleted</span>
-            </div>
-            <div style="font-size: 12px; color: #cbd5e1; font-family: 'JetBrains Mono', monospace; word-break: break-all; margin-top: 3px;" id="savedLocationText"></div>
-          </div>
-        </div>
-        <button type="button" class="btn-open-explorer" onclick="openSavedLocation()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-          <span>Show in Folder</span>
-        </button>
-      </div>
-
-      <!-- Completed Clips List -->
-      <div class="clips-list-grid" id="clipsList"></div>
     </div>
+  </section>
 
-    <!-- History Drawer -->
-    <div class="history-section">
-      <div class="history-header-toggle" onclick="toggleHistory()">
-        <div class="history-title-group">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-          <span>Previous Studio Batches</span>
-          <span id="historyCountBadge" style="color: var(--text-muted); font-weight: normal; font-size: 12px;">(Loading...)</span>
-        </div>
-        <span id="historyArrow" style="color: var(--text-muted); font-size: 12px;">▼</span>
-      </div>
-      <div class="history-list" id="historyList"></div>
+  <!-- Error Alert -->
+  <div class="error-alert" id="error"></div>
+
+  <!-- Hero Gradient Action Button -->
+  <button type="button" id="startBtn" class="btn-hero-clip" onclick="startJob()">
+    <div class="btn-hero-main-text">
+      <span>▷</span>
+      <span id="startBtnText">Clip It</span>
     </div>
+    <div class="btn-hero-sub-text">Let's create something amazing!</div>
+  </button>
 
-    <!-- Footer -->
-    <footer class="studio-footer">
-      <span>Universal Video Clipper</span>
-      <span>•</span>
-      <span>Crafted with ❤️ for Creators</span>
-      <span>•</span>
-      <a href="https://github.com/Abhijeetm96/clipper" target="_blank" rel="noopener noreferrer" class="footer-link">
-        ⭐ Star on GitHub
+  <!-- Live Telemetry Status Box -->
+  <div class="status-box" id="statusBox">
+    <div class="status-header-row">
+      <div class="status-title-wrap">
+        <div class="status-spinner" id="statusSpinner"></div>
+        <span id="statusTitle">Processing...</span>
+      </div>
+      <div class="status-pct" id="statusPct">0%</div>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="status-detail-text" id="statusDetail">Initializing studio pipeline...</div>
+  </div>
+
+  <!-- Completed Clips Section -->
+  <section class="clips-section" id="clipsSection">
+    <div class="clips-header-bar">
+      <div class="clips-title-text" id="clipsHeader">Clips Ready</div>
+      <a class="btn-zip-all" id="zipAllBtn" href="#" download>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        <span>Download All as ZIP</span>
       </a>
-    </footer>
+    </div>
 
-  </main>
+    <!-- Permanent Downloads Banner -->
+    <div class="saved-banner" id="savedBanner">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="font-size: 26px;">📁</div>
+        <div>
+          <div style="font-weight: 700; color: var(--success); font-size: 13px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <span>Delivered to System Downloads Folder</span>
+            <span style="font-size: 11px; font-weight: 600; background: rgba(16, 185, 129, 0.2); color: var(--success); padding: 2px 8px; border-radius: 4px;">Permanent • Never Deleted</span>
+          </div>
+          <div style="font-size: 12px; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; word-break: break-all; margin-top: 3px;" id="savedLocationText"></div>
+        </div>
+      </div>
+      <button type="button" class="btn-open-explorer" onclick="openSavedLocation()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+        <span>Show in Folder</span>
+      </button>
+    </div>
+
+    <!-- Clips List -->
+    <div class="clips-list-grid" id="clipsList"></div>
+  </section>
+
+  <!-- History Drawer Section -->
+  <div class="history-section">
+    <div class="history-header-toggle" onclick="toggleHistory()">
+      <div class="history-title-group">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <span>Previous Batches</span>
+        <span id="historyCountBadge" style="color: var(--text-muted); font-weight: normal; font-size: 12px;">(Loading...)</span>
+      </div>
+      <span id="historyArrow" style="color: var(--text-muted); font-size: 12px;">▼</span>
+    </div>
+    <div class="history-list" id="historyList"></div>
+  </div>
+
+  <!-- Studio Footer -->
+  <footer class="studio-footer">
+    <div>❤️ Built for Creators, Everywhere.</div>
+    <div>Fast &nbsp;|&nbsp; Simple &nbsp;|&nbsp; Powerful</div>
+  </footer>
+
 </div>
 
-<!-- Preview Modal -->
+<!-- Modal Preview Player -->
 <div class="modal-backdrop" id="previewModal" onclick="closePreview(event)">
   <div class="modal-box" onclick="event.stopPropagation()">
     <div class="modal-header">
@@ -1688,16 +1789,39 @@ let fetchedMeta = null;
 let urlDebounceTimer = null;
 let currentUploadId = null;
 
+// Theme Toggle Logic (Light / Dark Mode)
+function initTheme() {
+  const savedTheme = localStorage.getItem('clipper_theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-theme');
+    document.getElementById('themeIcon').textContent = '🌙';
+  } else {
+    document.body.classList.remove('dark-theme');
+    document.getElementById('themeIcon').textContent = '☀️';
+  }
+}
+
+function toggleTheme() {
+  const isDark = document.body.classList.toggle('dark-theme');
+  document.getElementById('themeIcon').textContent = isDark ? '🌙' : '☀️';
+  localStorage.setItem('clipper_theme', isDark ? 'dark' : 'light');
+}
+
+function syncToggleCard(checkboxId, cardId) {
+  const chk = document.getElementById(checkboxId);
+  const card = document.getElementById(cardId);
+  if (chk && card) {
+    card.classList.toggle('checked', chk.checked);
+  }
+}
+
 function setSource(src) {
   currentSource = src;
-  document.getElementById('sourceTabYt').classList.toggle('active', src === 'yt');
-  document.getElementById('sourceTabUpload').classList.toggle('active', src === 'upload');
-
-  document.getElementById('sectionYtInput').style.display = src === 'yt' ? 'block' : 'none';
-  document.getElementById('sectionUploadInput').style.display = src === 'upload' ? 'block' : 'none';
-  document.getElementById('qualityRow').style.display = (src === 'yt' && currentMode === 'video' && currentStrategy !== 'full') ? 'block' : 'none';
+  document.getElementById('sourceTabYt') && document.getElementById('sourceTabYt').classList.toggle('active', src === 'yt');
+  document.getElementById('sourceTabUpload') && document.getElementById('sourceTabUpload').classList.toggle('active', src === 'upload');
 
   if (src === 'upload') {
+    document.getElementById('dropzone').style.display = 'block';
     document.getElementById('videoInfoCard').classList.remove('active');
     document.getElementById('fullDownloadCard').style.display = 'none';
     if (currentStrategy === 'chapters' || currentStrategy === 'viral' || currentStrategy === 'full') {
@@ -1707,25 +1831,33 @@ function setSource(src) {
     document.getElementById('stratCardViral').style.display = 'none';
     document.getElementById('stratCardFull').style.display = 'none';
   } else {
-    document.getElementById('stratCardChapters').style.display = 'block';
-    document.getElementById('stratCardViral').style.display = 'block';
-    document.getElementById('stratCardFull').style.display = 'block';
+    document.getElementById('dropzone').style.display = 'none';
+    document.getElementById('stratCardChapters').style.display = 'flex';
+    document.getElementById('stratCardViral').style.display = 'flex';
+    document.getElementById('stratCardFull').style.display = 'flex';
     if (fetchedMeta) {
       document.getElementById('fullDownloadCard').style.display = 'block';
     }
   }
 }
 
+function toggleUploadDropzone() {
+  const dz = document.getElementById('dropzone');
+  const isVisible = dz.style.display === 'block';
+  dz.style.display = isVisible ? 'none' : 'block';
+  if (!isVisible) {
+    dz.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
 function setMode(mode) {
   currentMode = mode;
   document.getElementById('tabVideo').classList.toggle('active', mode === 'video');
-  document.getElementById('tabVideo').classList.toggle('accent', mode === 'video');
   document.getElementById('tabAudio').classList.toggle('active', mode === 'audio');
-  document.getElementById('tabAudio').classList.toggle('accent', mode === 'audio');
 
-  document.getElementById('aspectGroup').style.display = (mode === 'video' && currentStrategy !== 'full') ? 'block' : 'none';
-  document.getElementById('rowProgressBar').style.display = (mode === 'video' && currentStrategy !== 'full') ? 'flex' : 'none';
-  document.getElementById('qualityRow').style.display = (mode === 'video' && currentSource === 'yt' && currentStrategy !== 'full') ? 'block' : 'none';
+  document.getElementById('aspectGroup').style.display = (mode === 'video' && currentStrategy !== 'full') ? 'flex' : 'none';
+  document.getElementById('cardToggleProgressBar').style.display = (mode === 'video' && currentStrategy !== 'full') ? 'flex' : 'none';
+  document.getElementById('qualityRow').style.display = (mode === 'video' && currentStrategy !== 'full') ? 'flex' : 'none';
   updateSubmitBtnText();
 }
 
@@ -1742,7 +1874,7 @@ function setStrategy(strat) {
   document.getElementById('panelFull').classList.toggle('active', strat === 'full');
 
   const isFull = (strat === 'full');
-  document.getElementById('qualityRow').style.display = (!isFull && currentSource === 'yt' && currentMode === 'video') ? 'block' : 'none';
+  document.getElementById('qualityRow').style.display = (!isFull && currentMode === 'video') ? 'flex' : 'none';
 
   updateSubmitBtnText();
 }
@@ -1752,27 +1884,27 @@ function updateSubmitBtnText() {
   if (currentStrategy === 'full') {
     btnText.textContent = 'Download Full Video (Original / 4K)';
   } else if (currentMode === 'audio') {
-    btnText.textContent = 'Extract Audio Clips • 3.2s Turbo';
+    btnText.textContent = 'Extract Audio Clips';
   } else if (currentStrategy === 'chapters') {
-    btnText.textContent = 'Clip by Chapters • 3.2s Turbo';
+    btnText.textContent = 'Clip by Chapters';
   } else if (currentStrategy === 'viral') {
-    btnText.textContent = 'Clip Viral Peaks • 3.2s Turbo';
+    btnText.textContent = 'Clip Viral Peaks';
   } else {
-    btnText.textContent = 'Start Clipping • 3.2s Turbo Engine';
+    btnText.textContent = 'Clip It';
   }
-}
-
-function selectAspect(val) {
-  document.getElementById('aspect').value = val;
-  document.querySelectorAll('.aspect-chip').forEach(c => {
-    c.classList.toggle('active', c.dataset.val === val);
-  });
 }
 
 function setPresetLength(sec) {
   document.getElementById('length').value = sec;
   document.querySelectorAll('.preset-btn').forEach(b => {
     b.classList.toggle('active', b.textContent.startsWith(sec + 's') || b.textContent.startsWith(sec + ' '));
+  });
+}
+
+function syncLengthWithPreset(val) {
+  const sec = parseInt(val, 10);
+  document.querySelectorAll('.preset-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.textContent, 10) === sec);
   });
 }
 
@@ -1793,6 +1925,15 @@ async function pasteFromClipboard() {
     urlInput.focus();
     urlInput.select();
   }
+}
+
+function triggerAnalyze() {
+  const url = document.getElementById('url').value.trim();
+  if (!url) {
+    showError('Please enter a video URL to analyze.');
+    return;
+  }
+  fetchVideoMeta(url);
 }
 
 function handleDragOver(e) {
@@ -1817,8 +1958,8 @@ async function handleFileSelected(file) {
   formData.append('file', file);
 
   const dropzone = document.getElementById('dropzone');
-  const oldText = dropzone.innerHTML;
-  dropzone.innerHTML = `<div class="dropzone-icon">⏳</div><div class="dropzone-title">Uploading ${file.name}...</div>`;
+  const oldHtml = dropzone.innerHTML;
+  dropzone.innerHTML = `<div style="font-size: 24px; margin-bottom: 6px;">⏳</div><div style="font-size: 14px; font-weight: 700;">Uploading ${file.name}...</div>`;
 
   try {
     const res = await fetch('/api/upload', {
@@ -1828,10 +1969,11 @@ async function handleFileSelected(file) {
     const data = await res.json();
     if (!res.ok) {
       showError(data.error || 'Upload failed.');
-      dropzone.innerHTML = oldText;
+      dropzone.innerHTML = oldHtml;
       return;
     }
     currentUploadId = data.upload_id;
+    currentSource = 'upload';
     document.getElementById('dropzone').style.display = 'none';
     document.getElementById('uploadedFileName').textContent = data.filename;
     document.getElementById('uploadedDuration').textContent = data.duration_str;
@@ -1839,14 +1981,14 @@ async function handleFileSelected(file) {
     document.getElementById('uploadSuccessCard').classList.add('active');
   } catch (e) {
     showError('Could not upload video.');
-    dropzone.innerHTML = oldText;
+    dropzone.innerHTML = oldHtml;
   }
 }
 
 function clearUpload() {
   currentUploadId = null;
+  currentSource = 'yt';
   document.getElementById('uploadSuccessCard').classList.remove('active');
-  document.getElementById('dropzone').style.display = 'block';
   document.getElementById('fileInput').value = '';
 }
 
@@ -1871,7 +2013,7 @@ async function fetchVideoMeta(url) {
     if (!res.ok) return;
     fetchedMeta = await res.json();
 
-    const p = fetchedMeta.platform || { name: 'Web Video', icon: '🌐', color: '#6366f1' };
+    const p = fetchedMeta.platform || { name: 'Web Video', icon: '🌐', color: '#3b82f6' };
     const card = document.getElementById('videoInfoCard');
     document.getElementById('videoThumb').src = fetchedMeta.thumbnail || '';
     document.getElementById('videoThumb').style.display = fetchedMeta.thumbnail ? 'block' : 'none';
@@ -1939,12 +2081,12 @@ async function fetchVideoMeta(url) {
       fetchedMeta.chapters.forEach(ch => {
         const item = document.createElement('div');
         item.className = 'chapter-item';
-        item.innerHTML = `<span>${ch.title}</span><span class="chapter-time">${ch.timestamp_str} (${ch.duration_str})</span>`;
+        item.innerHTML = `<span>${ch.title}</span><span style="font-family: monospace; color: var(--text-muted);">${ch.timestamp_str} (${ch.duration_str})</span>`;
         chContainer.appendChild(item);
       });
     } else {
       chDesc.textContent = 'Not in this video';
-      chContainer.innerHTML = '<div style="color: var(--text-muted); font-size: 12px; padding: 6px;">This video does not have timestamped chapters. Use Sequential Split.</div>';
+      chContainer.innerHTML = '<div style="color: var(--text-muted); font-size: 12px; padding: 4px;">This video does not have timestamped chapters. Use Sequential Split.</div>';
       if (currentStrategy === 'chapters') setStrategy('sequential');
     }
 
@@ -1959,13 +2101,13 @@ async function fetchVideoMeta(url) {
         item.className = 'viral-item';
         item.innerHTML = `
           <span>🔥 Peak #${p.rank} (${p.start}s - ${p.end}s)</span>
-          <span style="color: var(--amber); font-weight: 600;">${p.score_pct}% Retention</span>
+          <span style="color: var(--amber); font-weight: 700;">${p.score_pct}% Retention</span>
         `;
         vContainer.appendChild(item);
       });
     } else {
       vDesc.textContent = p.is_yt ? 'No retention data' : 'YouTube only';
-      vContainer.innerHTML = `<div style="color: var(--text-muted); font-size: 12px; padding: 6px;">Audience retention heatmap is a YouTube-specific metric. For ${p.name}, use Sequential Split.</div>`;
+      vContainer.innerHTML = `<div style="color: var(--text-muted); font-size: 12px; padding: 4px;">Audience retention heatmap is available on YouTube videos.</div>`;
       if (currentStrategy === 'viral') setStrategy('sequential');
     }
 
@@ -2319,6 +2461,7 @@ function showError(msg) {
   errorEl.style.display = 'block';
 }
 
+initTheme();
 loadHistory();
 </script>
 </body>
