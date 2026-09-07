@@ -1658,9 +1658,43 @@
     from { opacity: 0; transform: translateY(6px); }
     to { opacity: 1; transform: translateY(0); }
   }
+
+  /* Toast Notification */
+  .toast-notification {
+    position: fixed;
+    bottom: 26px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.28);
+    padding: 12px 22px;
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    max-width: 90vw;
+    word-break: break-all;
+  }
+  .toast-notification.active {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
 </style>
 </head>
 <body>
+
+<!-- Floating Toast Notification -->
+<div id="toastNotification" class="toast-notification">
+  <span id="toastMsg"></span>
+</div>
 
 <!-- Quirky Background Canvas: Infographics, Doodles, Post-It Notes & Quotes -->
 <div class="bg-quirky-canvas" id="quirkyCanvas">
@@ -3027,13 +3061,59 @@ function pollStatus() {
 
 let currentSavedPath = null;
 
-function openSavedLocation() {
-  if (!currentSavedPath) return;
-  fetch('/api/open_folder', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ path: currentSavedPath })
-  }).catch(e => console.error(e));
+function showToast(msg) {
+  const toast = document.getElementById('toastNotification');
+  const txt = document.getElementById('toastMsg');
+  if (toast && txt) {
+    txt.textContent = msg;
+    toast.classList.add('active');
+    setTimeout(() => {
+      toast.classList.remove('active');
+    }, 4500);
+  }
+}
+
+async function openSavedLocation(customPath, customJobId, customClip, triggerBtn) {
+  const btn = triggerBtn || (typeof event !== 'undefined' ? event?.currentTarget : null) || document.querySelector('.btn-open-explorer');
+  const origHtml = btn ? btn.innerHTML : null;
+
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = `<span>Opening...</span>`;
+  }
+
+  const payload = {
+    path: customPath || currentSavedPath || '',
+    job_id: customJobId || currentJobId || '',
+    clip: customClip || ''
+  };
+
+  try {
+    const res = await fetch('/api/open_folder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      if (btn) {
+        btn.innerHTML = `<span>✓ Opened!</span>`;
+      }
+      showToast(`📁 File Explorer opened: ${data.path || 'Downloads folder'}`);
+    } else {
+      showToast(`⚠️ Could not open folder: ${data.error || 'Path not found'}`);
+    }
+  } catch (e) {
+    console.error(e);
+    showToast(`⚠️ Could not reach server to open folder.`);
+  } finally {
+    if (btn && origHtml) {
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = origHtml;
+      }, 2500);
+    }
+  }
 }
 
 function renderClips(clips, clipDetails, totalSizeMb, jobStrategy, savedTo) {
@@ -3043,13 +3123,10 @@ function renderClips(clips, clipDetails, totalSizeMb, jobStrategy, savedTo) {
   const isFull = (jobStrategy === 'full' || currentStrategy === 'full' || (clips.length === 1 && !clips[0].startsWith('clip_')));
 
   const savedBanner = document.getElementById('savedBanner');
-  if (savedTo) {
-    currentSavedPath = savedTo;
-    document.getElementById('savedLocationText').textContent = savedTo;
-    savedBanner.style.display = 'flex';
-  } else {
-    savedBanner.style.display = 'none';
-  }
+  currentSavedPath = savedTo || currentSavedPath || '';
+  const displayLocation = currentSavedPath || (currentJobId ? `clips/${currentJobId} or System Downloads` : 'System Downloads Folder');
+  document.getElementById('savedLocationText').textContent = displayLocation;
+  savedBanner.style.display = 'flex';
 
   if (isFull) {
     document.getElementById('clipsHeader').textContent = `Full Video Ready${sizeSuffix}`;
@@ -3088,6 +3165,7 @@ function renderClips(clips, clipDetails, totalSizeMb, jobStrategy, savedTo) {
       </div>
       <div class="clip-actions">
         <button class="btn-preview" onclick="openPreview('${clipUrl}', '${name}', ${isAudio})">Preview</button>
+        <button class="btn-action-small" onclick="openSavedLocation(null, '${currentJobId}', '${name}', this)" title="Locate in File Explorer" style="margin-right: 4px;">📂 Folder</button>
         <a class="btn-download" href="${clipUrl}?download=1" download>Download</a>
       </div>
     `;
@@ -3156,13 +3234,15 @@ async function loadHistory() {
       const row = document.createElement('div');
       row.className = 'history-item';
       const dateStr = new Date(item.created_at * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const savedPathSafe = (item.saved_to || '').replace(/\\/g, '\\\\');
       row.innerHTML = `
         <div class="history-info">
           <span class="history-id">Job ${item.job_id}</span>
           <span class="history-meta">${item.clip_count} clips • ${item.size_mb} MB • ${dateStr}</span>
         </div>
         <div class="history-actions">
-          <button class="btn-action-small" onclick="viewPastJob('${item.job_id}', ${JSON.stringify(item.clips).replace(/"/g, '&quot;')}, ${item.size_mb})">View</button>
+          <button class="btn-action-small" onclick="viewPastJob('${item.job_id}', ${JSON.stringify(item.clips).replace(/"/g, '&quot;')}, ${item.size_mb}, '${savedPathSafe}')">View</button>
+          <button class="btn-action-small" onclick="openSavedLocation('${savedPathSafe}', '${item.job_id}', null, this)" title="Open folder in File Explorer">📂 Folder</button>
           <a class="btn-action-small" href="/api/zip/${item.job_id}" download>ZIP</a>
           <button class="btn-action-small btn-delete-small" onclick="deletePastJob('${item.job_id}')">Delete</button>
         </div>
@@ -3187,10 +3267,10 @@ async function deletePastJob(jobId) {
   }
 }
 
-function viewPastJob(jobId, clips, sizeMb) {
+function viewPastJob(jobId, clips, sizeMb, savedTo) {
   currentJobId = jobId;
   document.getElementById('zipAllBtn').href = `/api/zip/${jobId}`;
-  renderClips(clips, null, sizeMb);
+  renderClips(clips, null, sizeMb, 'past', savedTo);
   window.scrollTo({ top: 400, behavior: 'smooth' });
 }
 

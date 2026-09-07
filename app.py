@@ -1001,6 +1001,7 @@ def get_history():
                         "size_mb": size_mb,
                         "created_at": job_folder.stat().st_mtime,
                         "clips": files,
+                        "saved_to": JOBS.get(job_id, {}).get("saved_to") or str(job_folder),
                     })
     return jsonify({"history": jobs})
 
@@ -1017,34 +1018,66 @@ def delete_job(job_id):
 
 @app.route("/api/open_folder", methods=["POST"])
 def open_folder():
-    """Open Windows File Explorer or native file manager showing the downloaded file."""
-    data = request.get_json(force=True) or {}
+    """Open Windows File Explorer or native file manager showing the downloaded file/folder."""
+    data = request.get_json(force=True, silent=True) or {}
     file_path = (data.get("path") or "").strip()
-    if not file_path or not os.path.exists(file_path):
-        file_path = str(SYSTEM_DOWNLOADS_DIR)
+    job_id = (data.get("job_id") or "").strip()
+    clip_name = (data.get("clip") or "").strip()
 
-    if os.path.exists(file_path):
-        try:
-            if sys.platform == "win32":
-                abs_p = os.path.abspath(file_path)
-                if os.path.isfile(abs_p):
-                    subprocess.Popen(f'explorer /select,"{abs_p}"')
-                else:
-                    subprocess.Popen(f'explorer "{abs_p}"')
-                return jsonify({"success": True})
-            elif sys.platform == "darwin":
-                if os.path.isfile(file_path):
-                    subprocess.Popen(["open", "-R", file_path])
-                else:
-                    subprocess.Popen(["open", file_path])
-                return jsonify({"success": True})
+    target = None
+
+    # 1. Direct path if specified and exists
+    if file_path and os.path.exists(file_path):
+        target = file_path
+
+    # 2. Specific clip inside job directory or Downloads folder
+    if not target and job_id and clip_name:
+        candidate_clip = CLIPS_DIR / job_id / clip_name
+        if candidate_clip.exists():
+            target = str(candidate_clip)
+        else:
+            for folder in SYSTEM_DOWNLOADS_DIR.glob("*_clips*"):
+                if (folder / clip_name).exists():
+                    target = str(folder / clip_name)
+                    break
+
+    # 3. Job folder
+    if not target and job_id:
+        if job_id in JOBS and JOBS[job_id].get("saved_to") and os.path.exists(JOBS[job_id]["saved_to"]):
+            target = JOBS[job_id]["saved_to"]
+        elif (CLIPS_DIR / job_id).exists():
+            target = str(CLIPS_DIR / job_id)
+
+    # 4. Fallback to System Downloads folder
+    if not target or not os.path.exists(target):
+        target = str(SYSTEM_DOWNLOADS_DIR)
+
+    abs_target = os.path.normpath(os.path.abspath(target))
+
+    try:
+        if sys.platform == "win32":
+            if os.path.isfile(abs_target):
+                # /select,<file> opens File Explorer with the file selected
+                subprocess.Popen(['explorer.exe', f'/select,{abs_target}'])
             else:
-                target = os.path.dirname(file_path) if os.path.isfile(file_path) else file_path
-                subprocess.Popen(["xdg-open", target])
-                return jsonify({"success": True})
-        except Exception as e:
-            return jsonify({"error": str(e)}), 500
-    return jsonify({"error": f"Path '{file_path}' was not found on server."}), 404
+                # Open directory via native Windows ShellExecute directly
+                try:
+                    os.startfile(abs_target)
+                except Exception:
+                    subprocess.Popen(['explorer.exe', abs_target])
+            return jsonify({"success": True, "path": abs_target})
+        elif sys.platform == "darwin":
+            if os.path.isfile(abs_target):
+                subprocess.Popen(["open", "-R", abs_target])
+            else:
+                subprocess.Popen(["open", abs_target])
+            return jsonify({"success": True, "path": abs_target})
+        else:
+            folder_to_open = os.path.dirname(abs_target) if os.path.isfile(abs_target) else abs_target
+            subprocess.Popen(["xdg-open", folder_to_open])
+            return jsonify({"success": True, "path": abs_target})
+    except Exception as e:
+        return jsonify({"error": str(e), "path": abs_target}), 500
 
 
 @app.route("/api/health", methods=["GET"])
